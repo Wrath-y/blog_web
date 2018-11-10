@@ -30,11 +30,23 @@ module.exports = {
     'element-ui/lib/theme-chalk/index.css'
   ],
 
+  babel: {
+    "plugins": [["component", [
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      },
+      'transform-async-to-generator',
+      'transform-runtime'
+    ]]],
+    comments: true
+  },
+
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    { src: '~plugins/element-ui', ssr: true }
   ],
 
   /*
