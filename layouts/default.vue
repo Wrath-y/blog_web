@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <el-menu-item index="1">文章</el-menu-item>
+      <el-menu-item index="/articles">文章</el-menu-item>
       <el-menu-item index="2">图片</el-menu-item>
     </el-menu>
     <nuxt/>
@@ -23,8 +23,8 @@ export default {
     computed: {},
     watch: {},
     methods: {
-        handleSelect() {
-            this.$router.push('/articles');
+        handleSelect(key) {
+            this.$router.push(key);
         },
     },
     mounted() {
