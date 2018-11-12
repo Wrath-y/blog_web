@@ -40,11 +40,11 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+  font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
@@ -63,4 +63,5 @@ export default {
 .links {
   padding-top: 15px;
 }
+
 </style>
