@@ -1,67 +1,53 @@
 <template>
-  <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        <nuxt-link to="/articles">web</nuxt-link>
-      </h1>
-      <h2 class="subtitle">
-        web page
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
+    <div class="headertop filter-dot">
+        <div class="header-bg-box">
+            <img class="header-bg-img" src="../assets/images/header.png" />
+        </div>
     </div>
-  </section>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
 
 export default {
-  components: {
-    Logo
-  }
+    components: {
+        Logo
+    },
+    methods: {},
 }
 </script>
 
-<style>
-
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
+<style scoped>
+.headertop.filter-dot::before {
+    background-image: url('../assets/images/dot.gif')
 }
-
-.title {
-  font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.headertop {
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.headertop::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    background-attachment: fixed;
 }
-
-.links {
-  padding-top: 15px;
+.header-bg-box {
+    height: 938px;
+    overflow: hidden;
 }
-
+.header-bg-img {
+    width: 100%;
+}
 </style>
