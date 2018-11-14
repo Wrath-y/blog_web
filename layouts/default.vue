@@ -33,10 +33,21 @@ body {
     font-size: 15px;
     line-height: 1.5;
     margin: 0;
-    cursor: url('../assets/images/normal.cur'),auto;
+    cursor: url(https://gilgamesh-10047150.cos.ap-shanghai.myqcloud.com/normal.cur), auto;
+    text-shadow: 0 0 1px rgba(0,0,0,.1);
 }
 p {
     margin-bottom: 1.5em;
-    cursor: url('../assets/images/texto.cur'),auto;
+    cursor: url(https://gilgamesh-10047150.cos.ap-shanghai.myqcloud.com/texto.cur), auto;
+}
+a {
+    color: #504e4e;
+    text-decoration: none;
+    transition: color .2s ease-out,border .2s ease-out,opacity .2s ease-out;
+}
+a:hover {
+    color: #e67474;
+    text-decoration: none;
+    cursor: url(https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/cursor/ayuda.cur),auto;
 }
 </style>

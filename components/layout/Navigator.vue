@@ -51,3 +51,14 @@ export default {
     justify-content: center;
 }
 </style>
+<style lang="scss">
+.el-menu--popup {
+    min-width: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    .el-menu-item {
+        text-align: center;
+    }
+}
+</style>
+
