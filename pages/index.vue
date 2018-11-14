@@ -1,23 +1,40 @@
 <template>
-    <div class="headertop filter-dot">
-        <div class="header-bg-box">
-            <img class="header-bg-img" src="../assets/images/header.png" />
+    <div>
+        <div class="headertop trans filter-dot">
+            <div class="header-bg-box">
+                <img class="header-bg-img" src="../assets/images/header.png" />
+            </div>
+        </div>
+        <div class="list">
+            <div class="main-content">
+                
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Logo from '~/components/Logo.vue';
+import {Table, TableColumn, Pagination} from 'element-ui';
 
 export default {
+    transition: 'page',
     components: {
-        Logo
+        [Table.name]: Table,
+        [TableColumn.name]: TableColumn,
+        [Pagination.name]: Pagination,
+        Logo,
+    },
+    data() {
+        return {
+            loading: false,
+		};
     },
     methods: {},
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .headertop.filter-dot::before {
     background-image: url('../assets/images/dot.gif')
 }
@@ -25,13 +42,6 @@ export default {
     height: auto;
     position: relative;
     overflow: hidden;
-    animation-duration: 1s;
-    animation-timing-function: ease;
-    animation-delay: 0s;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-fill-mode: none;
-    animation-play-state: running;
 }
 .headertop::before {
     content: '';
@@ -49,5 +59,18 @@ export default {
 }
 .header-bg-img {
     width: 100%;
+}
+.list {
+    display: flex;
+    justify-content: center;
+}
+.trans {
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
 }
 </style>

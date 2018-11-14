@@ -3,7 +3,6 @@
         <div class="logo"></div>
         <el-menu router class="el-menu navbar" mode="horizontal">
             <el-menu-item index="/">首页</el-menu-item>
-            <el-menu-item index="/articles">文章</el-menu-item>
             <el-menu-item index="/time-series">归档</el-menu-item>
             <el-submenu :show-timeout='100' :hide-timeout='100' index="/lists">
                 <template slot="title">清单</template>
@@ -48,6 +47,7 @@ export default {
 }
 .navbar {
     font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
-    padding-left: 36%;
+    display: flex;
+    justify-content: center;
 }
 </style>

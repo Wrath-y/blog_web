@@ -33,5 +33,10 @@ body {
     font-size: 15px;
     line-height: 1.5;
     margin: 0;
+    cursor: url('../assets/images/normal.cur'),auto;
+}
+p {
+    margin-bottom: 1.5em;
+    cursor: url('../assets/images/texto.cur'),auto;
 }
 </style>
