@@ -16,29 +16,27 @@
                     <div class="post-con" :class="{'float-right': index % 2 == 0}">
                         <div class="post-date" :class="{'text-right': index % 2 == 0}">
                             <i class="el-icon-time"></i>
-                            发布于 2018-11-15
+                            {{getNowFormatDate(item.createdAt)}}
                         </div>
                         <a href="">
-                            <h3>YSAMAのblog</h3>
+                            <h3>{{item.title}}</h3>
                         </a>
                         <div class="post-meta" :class="{'text-right': index % 2 == 0}">
                             <span>
                                 <i class="el-icon-view"></i>
-                                2175热度
+                                {{item.hits}}热度
                             </span>
                             <span style="margin: 0 10px">
                                 <i class="el-icon-edit"></i>
-                                9条评论
+                                {{item.commentCount || 0}}条评论
                             </span>
                             <span>
                                 <i class="el-icon-document"></i>
-                                野生技术协会
+                                {{item.tags}}
                             </span>
                         </div>
                         <div class="post-intro">
-                            <p>
-                               喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵？？？
-                            </p>
+                            <p v-html="item.html"></p>
                         </div>
                         <div class="post-bottom" :class="{'text-right': index % 2 == 0}">
                             <a href="">
@@ -66,22 +64,37 @@ export default {
     },
     data() {
         return {
-            list: [
-                {
-                    id: 1,
-                    image: 'http://p92qvcq1g.bkt.clouddn.com/38947047.jpg',
-                }, {
-                    id: 2,
-                    image: 'http://p92qvcq1g.bkt.clouddn.com/38947047.jpg',
-                }, {
-                    id: 3,
-                    image: 'http://p92qvcq1g.bkt.clouddn.com/38947047.jpg',
-                }
-            ],
+            form: {},
+            list: [],
             loading: false,
 		};
     },
-    methods: {},
+    methods: {
+        async fetchList() {
+            await this.$axios.$get('articles').then((res) => {
+                this.list = res;
+            });
+        },
+        getNowFormatDate(timetsamp) {
+            const date = new Date(timetsamp);
+            let month = date.getMonth() + 1;
+            let strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = '0' + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = '0' + strDate;
+            }
+            const trueDate = date.getFullYear() + '年' + month + '月' + strDate
+                    + '日 ' + date.getHours() + ':' + date.getMinutes()
+                    + ':' + date.getSeconds();
+            return trueDate;
+        },
+
+    },
+    created() {
+        this.fetchList();
+    },
 }
 </script>
 
@@ -142,6 +155,7 @@ export default {
             .post-con {
                 display: inline-block;
                 width: 279px;
+                height: 251px;
                 padding: 24px 36px;
                 .post-date, .post-meta {
                     width: 100%;
@@ -155,13 +169,14 @@ export default {
                 }
                 .post-intro {
                     color: rgba(0,0,0,.66);
-                    margin-top: 15px;
+                    margin-bottom: 15px;
                     p {
+                        margin: 0;
                         font-size: 16px;
                         display: -webkit-box;
                         -webkit-box-orient: vertical;
                         -webkit-line-clamp: 3;
-                        height: 67.5px;
+                        height: 87.5px;
                         overflow: hidden;
                     }
                 }
@@ -197,6 +212,7 @@ export default {
     .main-content {
         .el-card__body {
             padding: 0;
+            height: 300px;
         }
     }
 }
