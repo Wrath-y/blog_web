@@ -7,7 +7,6 @@ export default class {
 				continue;
 			}
 			if (error.message) {
-				$ele.$message.error(error.message);
 				continue;
 			}
 			if (typeof error.method === 'function') {

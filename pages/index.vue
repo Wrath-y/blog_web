@@ -59,20 +59,27 @@ export default {
     components: {
         [Table.name]: Table,
         [TableColumn.name]: TableColumn,
-        [Pagination.name]: Pagination,
         Logo,
     },
     data() {
         return {
             form: {},
             list: [],
+            lastId: 0,
             loading: false,
 		};
     },
     methods: {
         async fetchList() {
-            await this.$axios.$get('articles').then((res) => {
-                this.list = res;
+            let params = {};
+            if (this.lastId) {
+                params.lastId = this.lastId;
+            }
+            await this.$axios.$get('articles', {params}).then((res) => {
+                if (res) {
+                    this.list = this.list.concat(res);
+                    this.lastId = this.list[this.list.length - 1]['id'];
+                }
             });
         },
         getNowFormatDate(timetsamp) {
@@ -90,10 +97,17 @@ export default {
                     + ':' + date.getSeconds();
             return trueDate;
         },
-
+        scrolls() {
+            if ((document.documentElement.scrollTop/1500)%1 === 0) {
+                this.fetchList();
+            }
+        },
     },
     created() {
         this.fetchList();
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrolls)
     },
 }
 </script>

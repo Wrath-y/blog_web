@@ -11,7 +11,6 @@ export default function ({ $axios, redirect }) {
 			return Promise.reject(response.data);
 		}
 		if (response.data.msg) {
-			$ele.$message.error(response.data.msg);
 			return Promise.reject(response.data);
 		}
 	})
@@ -20,7 +19,6 @@ export default function ({ $axios, redirect }) {
 		if (error.response && error.response.status > 200) {
 			return httpErrorHandle({ error, redirect });
 		}
-		$ele.$message.error(error.message);
 		return Promise.reject(error);
 	})
 

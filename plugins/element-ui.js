@@ -6,9 +6,7 @@ import {
   Button,
 } from 'element-ui';
 
-export default () => {
-  Vue.use(Loading.directive);
-  Vue.use(Card);
-  Vue.use(Button);
-  Vue.prototype.$message = Message;
-}
+Vue.use(Loading.directive);
+Vue.use(Card);
+Vue.use(Button);
+Vue.prototype.$message = Message;
