@@ -62,7 +62,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-		baseURL: 'http://127.0.0.1/v1/',
+		baseURL: 'http://localhost/v1/',
   },
 
   /*
