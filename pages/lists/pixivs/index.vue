@@ -1,41 +1,64 @@
 <template>
 	<el-card>
-        <el-table :data="list" v-loading="loading" size="mini">
-            <el-table-column prop="id" label="ID" width="100"/>
-        </el-table>
+        <no-ssr>
+            <waterfall style="margin-top: 61px" :col="col" :data="list" @loadmore="fetchList">
+                <div class="cell-item" v-for="(item,index) in list">
+                    <img v-lazy="item.Key" width="98%" />
+                </div>
+            </waterfall>
+        </no-ssr>
     </el-card>
 </template>
 
 <script>
-import {Table, TableColumn, Pagination} from 'element-ui';
-
 export default {
-    components: {
-        [Table.name]: Table,
-        [TableColumn.name]: TableColumn,
-        [Pagination.name]: Pagination,
-    },
+    transition: 'page',
+    components: {},
     data() {
         return {
-            loading: false,
-			list: [
-				{
-					id: 7,
-				},
-				{
-					id: 8,
-				}
-			],
+            list: [],
+            col:5,
+            form: {
+                page_size: 15,
+                next_marker: "",
+            },
 		};
     },
     computed: {},
     watch: {},
     methods: {
+        async fetchList() {
+            await this.$axios.get('http://localhost:8081/pixivs?' + this.toQuery(this.form)).then((res) => {
+                if (res) {
+                    this.list = this.list.concat(res.Data.Objects.map((i) => {
+                        i.Key = 'https://gilgamesh.oss-cn-hongkong.aliyuncs.com/' + this.encodeUrl(i.Key) + '?x-oss-process=image/resize,l_300';
+                        return i;
+                    }));
+                    this.form.next_marker = res.Data.NextMarker
+                }
+            });
+        },
+        encodeUrl(str) {
+            str = encodeURI(str);
+            str = str.replace(/\+/g, '%2B');
+            return str;
+        },
+        toQuery(json) {
+            return Object.keys(json).map(function (key) {
+                return encodeURIComponent(key) + "=" + encodeURIComponent(json[key]);
+            }).join("&");
+        }
     },
     mounted() {
+        this.fetchList();
     },
     beforeDestroy() {
     },
 };
 </script>
 
+<style scope lang="scss">
+.cell-item {
+    text-align: center;
+}
+</style>

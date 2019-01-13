@@ -10,6 +10,7 @@
 import {Table, TableColumn, Pagination} from 'element-ui';
 
 export default {
+    transition: 'page',
     components: {
         [Table.name]: Table,
         [TableColumn.name]: TableColumn,

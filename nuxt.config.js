@@ -31,14 +31,16 @@ module.exports = {
   ],
 
   babel: {
-    "plugins": [["component", [
-      {
-        "libraryName": "element-ui",
-        "styleLibraryName": "theme-chalk"
-      },
-      'transform-async-to-generator',
-      'transform-runtime'
-    ]]],
+    "plugins": [
+        ["component", [
+          {
+            "libraryName": "element-ui",
+            "styleLibraryName": "theme-chalk"
+          },
+          'transform-async-to-generator',
+          'transform-runtime'
+      ]]
+    ],
     comments: true
   },
 
@@ -47,7 +49,9 @@ module.exports = {
   */
   plugins: [
     { src: '~plugins/element-ui', ssr: true },
-    '~/plugins/axios'
+    { src: '~plugins/axios', ssr: true },
+    { src: '~plugins/lazy-loading', ssr: true },
+    { src: '~plugins/waterfall', ssr: true },
   ],
 
   /*
@@ -74,6 +78,11 @@ module.exports = {
     */
     extend(config, ctx) {
       
-    }
+    },
+    vendor: [
+      'axios',
+      'element-ui',
+      'waterfall',
+    ]
   }
 }

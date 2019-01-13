@@ -3,7 +3,7 @@ import ErrorHandle from '~/api/ErrorHandle';
 
 export default function ({ $axios, redirect }) {
 	$axios.onResponse(response => {
-		if (response.data.status === 'success') {
+		if (response.data.status === 'success' || !response.data.Code) {
 			return response.data;
 		}
 		if (response.data.code) {
@@ -17,7 +17,7 @@ export default function ({ $axios, redirect }) {
 
 	$axios.onError(error => {
 		if (error.response && error.response.status > 200) {
-			return httpErrorHandle({ error, redirect });
+			return console.log(error.response);
 		}
 		return Promise.reject(error);
 	})
