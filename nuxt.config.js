@@ -51,7 +51,7 @@ module.exports = {
     { src: '~plugins/element-ui', ssr: true },
     { src: '~plugins/axios', ssr: true },
     { src: '~plugins/lazy-loading', ssr: true },
-    { src: '~plugins/waterfall', ssr: true },
+    { src: '~plugins/waterfall', ssr: false },
   ],
 
   /*
@@ -77,7 +77,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     },
     vendor: [
       'axios',
