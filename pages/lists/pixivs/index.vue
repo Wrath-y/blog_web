@@ -2,7 +2,7 @@
 	<el-card>
         <no-ssr>
             <waterfall style="margin-top: 61px" :col="col" :data="list" @loadmore="fetchList">
-                <div class="cell-item" v-for="(item,index) in list">
+                <div class="cell-item" v-for="(item, index) in list" :key="index">
                     <img v-lazy="item.Key" width="98%" />
                 </div>
             </waterfall>

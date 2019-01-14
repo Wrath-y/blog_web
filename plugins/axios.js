@@ -1,18 +1,11 @@
 /* eslint-disable */
-import ErrorHandle from '~/api/ErrorHandle';
-
 export default function ({ $axios, redirect }) {
 	$axios.onResponse(response => {
-		if (response.data.status === 'success' || !response.data.Code) {
+		if (response.data.status === 'success' || response.data.Message == 'Success') {
 			return response.data;
 		}
-		if (response.data.code) {
-			new ErrorHandle(response.data);
-			return Promise.reject(response.data);
-		}
-		if (response.data.msg) {
-			return Promise.reject(response.data);
-		}
+
+		return response;
 	})
 
 	$axios.onError(error => {

@@ -18,7 +18,7 @@
                             <i class="el-icon-time"></i>
                             {{getNowFormatDate(item.createdAt)}}
                         </div>
-                        <a href="">
+                        <a :href="`/articles/${item.id}`">
                             <h3>{{item.title}}</h3>
                         </a>
                         <div class="post-meta" :class="{'text-right': index % 2 == 0}">
@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
 import {Table, TableColumn, Pagination} from 'element-ui';
 
 export default {
@@ -59,7 +58,6 @@ export default {
     components: {
         [Table.name]: Table,
         [TableColumn.name]: TableColumn,
-        Logo,
     },
     data() {
         return {
