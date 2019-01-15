@@ -1,9 +1,9 @@
 <template>
 	<el-card>
         <no-ssr>
-            <waterfall style="margin-top: 61px" :col="col" :data="list" @loadmore="fetchList">
+            <waterfall id="gallery" style="margin-top: 61px" :col="col" :data="list" @loadmore="fetchList">
                 <div class="cell-item" v-for="(item, index) in list" :key="index">
-                    <img v-lazy="item.Key" width="98%" />
+                    <img :key="index" v-lazy="`${item.Key}?x-oss-process=image/resize,l_300`" width="98%" :data-resource="item.Key"/>
                 </div>
             </waterfall>
         </no-ssr>
@@ -11,6 +11,9 @@
 </template>
 
 <script>
+import Viewer from 'viewerjs';
+import 'viewerjs/dist/viewer.css';
+
 export default {
     transition: 'page',
     components: {},
@@ -22,20 +25,37 @@ export default {
                 page_size: 15,
                 next_marker: "",
             },
+            view: null,
 		};
     },
-    computed: {},
-    watch: {},
     methods: {
         async fetchList() {
             await this.$axios.get('http://localhost:8081/pixivs?' + this.toQuery(this.form)).then((res) => {
                 if (res) {
                     this.list = this.list.concat(res.Data.Objects.map((i) => {
-                        i.Key = 'https://gilgamesh.oss-cn-hongkong.aliyuncs.com/' + this.encodeUrl(i.Key) + '?x-oss-process=image/resize,l_300';
+                        i.Key = 'https://gilgamesh.oss-cn-hongkong.aliyuncs.com/' + this.encodeUrl(i.Key);
                         return i;
                     }));
                     this.form.next_marker = res.Data.NextMarker
                 }
+            });
+            if (this.view) {
+                this.view.destroy();
+            }
+            this.view = new Viewer(document.getElementById('gallery'), {
+                url: "data-resource",
+                toolbar: {
+                    zoomIn: 4,
+                    zoomOut: 4,
+                    oneToOne: 4,
+                    reset: 4,
+                    prev: 4,
+                    next: 4,
+                    rotateLeft: 4,
+                    rotateRight: 4,
+                    flipHorizontal: 4,
+                    flipVertical: 4,
+                },
             });
         },
         encodeUrl(str) {
@@ -47,18 +67,16 @@ export default {
             return Object.keys(json).map(function (key) {
                 return encodeURIComponent(key) + "=" + encodeURIComponent(json[key]);
             }).join("&");
-        }
+        },
     },
     mounted() {
         this.fetchList();
-    },
-    beforeDestroy() {
     },
 };
 </script>
 
 <style scope lang="scss">
-.cell-item {
+#gallery {
     text-align: center;
 }
 </style>

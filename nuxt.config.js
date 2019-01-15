@@ -14,7 +14,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ]
   },
 
@@ -27,22 +27,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    'element-ui/lib/theme-chalk/index.css'
   ],
-
-  babel: {
-    "plugins": [
-        ["component", [
-          {
-            "libraryName": "element-ui",
-            "styleLibraryName": "theme-chalk"
-          },
-          'transform-async-to-generator',
-          'transform-runtime'
-      ]]
-    ],
-    comments: true
-  },
 
   /*
   ** Plugins to load before mounting the App
