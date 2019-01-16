@@ -1,12 +1,12 @@
 <template>
     <div class="navtop">
         <div class="logo"></div>
-        <el-menu router class="el-menu navbar" mode="horizontal">
+        <el-menu router class="navbar" mode="horizontal">
             <el-menu-item index="/">首页</el-menu-item>
             <el-menu-item index="/time-series">归档</el-menu-item>
             <el-submenu :show-timeout='100' :hide-timeout='100' index="/lists">
                 <template slot="title">清单</template>
-                <el-menu-item index="/lists/musics">歌单</el-menu-item>
+                <el-menu-item index=""><a href="">歌单</a></el-menu-item>
                 <el-menu-item index="/lists/pixivs">图片</el-menu-item>
             </el-submenu>
             <el-menu-item index="/comments">留言板</el-menu-item>
@@ -39,7 +39,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 .navtop {
     position: fixed;
     width: 100%;
@@ -50,9 +50,7 @@ export default {
     display: flex;
     justify-content: center;
 }
-</style>
-<style lang="scss">
-.el-menu--popup {
+.el-menu .el-submenu, .el-menu--horizontal .el-menu--popup {
     min-width: 80px;
     border-radius: 8px;
     overflow: hidden;
@@ -61,4 +59,3 @@ export default {
     }
 }
 </style>
-

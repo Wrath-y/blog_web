@@ -12,7 +12,10 @@
                 placeholder="你有什么想对我说的..."
                 v-model="form.content" />
         </div>
-        <el-button class="btn" @click="submit">点击就送...</el-button>
+        <div class="buttom-btn">
+            <el-button class="submit-btn" @click="submit">点击就送...</el-button>
+            <el-button v-if="this.row" class="cancel-btn" @click="$emit('cancel')">CANCEL</el-button>
+        </div>
     </div>
 </template>
 
@@ -34,13 +37,16 @@ export default {
             },
 		};
     },
+    props: ['row'],
     methods: {
         submit() {
             this.loading = true;
             this.$axios.post('comments', this.form).then((res) => {
-                console.log(res);
                 this.$message.success('发送成功');
-            }).finally(() => this.loading = false);
+            }).finally(() => {
+                this.loading = false;
+                this.$emit('cancel')
+            });
         }
     },
 };
@@ -52,7 +58,12 @@ export default {
         display: flex;
         justify-content: center;
     }
-    .content, .btn {
+    .content {
+        margin-top: 10px;
+    }
+    .buttom-btn {
+        display: flex;
+        justify-content: space-between;
         margin-top: 10px;
     }
 }
