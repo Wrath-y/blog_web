@@ -5,7 +5,7 @@
                 <img class="header-bg-img" src="../assets/images/header.png" />
             </div>
         </div>
-        <div class="list">
+        <div class="list" v-loading="loading">
             <div class="main-content">
                 <el-card v-for="(item, index) in list" :key="index" class="post-card">
                     <div class="post-image" :class="{'float-right': index % 2 !== 0}">
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {Table, TableColumn, Pagination} from 'element-ui';
+import {Table, TableColumn} from 'element-ui';
 
 export default {
     transition: 'page',
@@ -65,7 +65,7 @@ export default {
             list: [],
             lastId: 0,
             loading: false,
-		};
+		    };
     },
     methods: {
         async fetchList() {
@@ -209,7 +209,7 @@ export default {
                 }
             }
         }
-        
+
     }
 }
 .float-right {

@@ -7,14 +7,13 @@
 </template>
 
 <script>
-import {Table, TableColumn, Pagination} from 'element-ui';
+import {Table, TableColumn} from 'element-ui';
 
 export default {
     transition: 'page',
     components: {
         [Table.name]: Table,
         [TableColumn.name]: TableColumn,
-        [Pagination.name]: Pagination,
     },
     data() {
         return {
