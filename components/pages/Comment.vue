@@ -3,26 +3,50 @@
         <h3>Comments</h3>
         <Reply v-if="this.showTopReply" />
         <el-table :data="list" v-loading="loading">
-            <el-table-column class="block">
+            <el-table-column>
                 <template slot-scope="{$index, row}">
-                    <div class="img">
-                        <img :src="row.email" />
-                    </div>
-                    <div class="info">
-                        <div class="name">
-                            <a :href="row.url" target="_blank">
-                                {{row.name}}
-                            </a>
+                    <div class="comment">
+                        <div class="img">
+                            <img :src="row.email" />
                         </div>
-                        <div>
-                            <span class="time">{{row.createdAt}}</span>
-                            <el-button class="reply-btn" type="text" @click="replyBtn($index, row)">REPLY</el-button>
+                        <div class="info">
+                            <div class="name">
+                                <a :href="row.url" target="_blank">
+                                    {{row.name}}
+                                </a>
+                            </div>
+                            <div>
+                                <span class="time">{{row.createdAt}}</span>
+                                <el-button class="reply-btn" type="text" @click="replyBtn($index, row)">REPLY</el-button>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <vue-markdown>{{row.content}}</vue-markdown>
+                        </div>
+                        <Reply v-if="row.reply" :row="row" :reply_to="reply_to" @cancel="cancelBtn($index, row)" />
+                    </div>
+                    <div v-if="row.childs" class="sub-comment">
+                        <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
+                            <div class="img">
+                                <img :src="item.email" />
+                            </div>
+                            <div class="info">
+                                <div class="name">
+                                    <a :href="item.url" target="_blank">
+                                        {{item.name}}
+                                    </a>
+                                </div>
+                                <div>
+                                    <span class="time">{{item.createdAt}}</span>
+                                    <el-button class="reply-btn" type="text" @click="replyBtn(index, item, $index)">REPLY</el-button>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <vue-markdown>{{item.content}}</vue-markdown>
+                            </div>
+                            <Reply v-if="item.reply" :row="item" :reply_to="reply_to" :pid="row.id" :ppid="item.id" @cancel="cancelBtn(index, item, $index)" />
                         </div>
                     </div>
-                    <div class="content">
-                        <vue-markdown>{{row.content}}</vue-markdown>
-                    </div>
-                    <Reply v-if="row.reply" :row="row" @cancel="cancelBtn($index, row)" />
                 </template>
             </el-table-column>
         </el-table>
@@ -58,6 +82,7 @@ export default {
                 page_size: 6,
             },
             showTopReply: true,
+            reply_to: '',
         };
     },
     methods: {
@@ -65,8 +90,14 @@ export default {
             this.loading = true;
             let url = this.list.length ? `comments?article_id=${this.$route.params.id}&last_id=${this.list[this.list.length - 1].id}` : `comments?article_id=${this.$route.params.id}`;
             await this.$axios.$get(url).then((res) => {
-                this.list = res.map((el) => {
+                res.forEach((el) => {
                     el.reply = false;
+                    return el;
+                });
+                this.list = res.map((el) => {
+                    el.childs = res.filter((e) => {
+                        return e.pid === el.id;
+                    });
                     return el;
                 });
             }).finally(() => this.loading = false);
@@ -77,19 +108,33 @@ export default {
                 this.pagination.total = res;
             }).finally(() => this.loading = false);
         },
-        replyBtn(index, row) {
+        replyBtn(index, row, parent_index = -1) {
+            this.reply_to = `@${row.name}`;
             this.showTopReply = false;
             this.list.forEach((el) => {
+                el.childs.forEach((e) => {
+                    e.reply = false;
+                    return e;
+                })
                 el.reply = false;
                 return el;
             });
             row.reply = true;
-            this.$set(this.list, index, row);
+            if (parent_index > -1) {
+                this.list[parent_index].childs[index] = row;
+            } else {
+                this.$set(this.list, index, row);
+            }
         },
-        cancelBtn(index, row) {
+        cancelBtn(index, row, parent_index = -1) {
+            this.reply_to = '';
             this.showTopReply = true;
             row.reply = false;
-            this.$set(this.list, index, row);
+            if (parent_index > -1) {
+                this.list[parent_index].childs[index] = row;
+            } else {
+                this.$set(this.list, index, row);
+            }
         },
     },
     mounted() {
@@ -102,7 +147,7 @@ export default {
 <style lang="scss" scoped>
 .comment {
     margin-top: 30px;
-    .cell:hover {
+    .comment:hover, .sub-comment-item:hover {
         .info {
             .reply-btn {
                 opacity: 1;
@@ -147,6 +192,14 @@ export default {
         font-size: 14px;
         line-height: 30px;
         color: #63686d;
+    }
+    .sub-comment {
+        display: block;
+        margin-left: 80px;
+        .sub-comment-item {
+            border-top: 1px solid #ccc;
+            padding-top: 30px;
+        }
     }
 }
 </style>

@@ -33,11 +33,14 @@ export default {
                 name: '',
                 email: '',
                 url: '',
-                content: '',
+                content: this.reply_to ? this.reply_to + '  ' : '',
+                article_id: this.$route.params.id,
+                pid: this.pid,
+                ppid: this.ppid
             },
 		};
     },
-    props: ['row'],
+    props: ['row', 'reply_to', 'pid', 'ppid'],
     methods: {
         submit() {
             this.loading = true;
