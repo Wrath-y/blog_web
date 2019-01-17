@@ -94,11 +94,20 @@ export default {
                     el.reply = false;
                     return el;
                 });
+                let del_ids = [];
                 this.list = res.map((el) => {
                     el.childs = res.filter((e) => {
-                        return e.pid === el.id;
+                        if (e.pid === el.id) {
+                            del_ids.push(e.id);
+                            return true;
+                        }
+                        return false;
                     });
                     return el;
+                }).filter((el) => {
+                    return !del_ids.find((e) => {
+                        return e === el.id;
+                    });
                 });
             }).finally(() => this.loading = false);
         },

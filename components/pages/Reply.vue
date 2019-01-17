@@ -34,7 +34,7 @@ export default {
                 email: '',
                 url: '',
                 content: this.reply_to ? this.reply_to + '  ' : '',
-                article_id: this.$route.params.id,
+                article_id: Number(this.$route.params.id),
                 pid: this.pid,
                 ppid: this.ppid
             },
@@ -44,6 +44,7 @@ export default {
     methods: {
         submit() {
             this.loading = true;
+            console.log(this.form);
             this.$axios.post('comments', this.form).then((res) => {
                 this.$message.success('发送成功');
             }).finally(() => {
