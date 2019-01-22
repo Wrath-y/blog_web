@@ -36,6 +36,9 @@ body {
     cursor: url(https://gilgamesh-10047150.cos.ap-shanghai.myqcloud.com/normal.cur), auto;
     text-shadow: 0 0 1px rgba(0,0,0,.1);
 }
+body .el-message {
+    margin-top: 50px;
+}
 p {
     margin-bottom: 1.5em;
     cursor: url(https://gilgamesh-10047150.cos.ap-shanghai.myqcloud.com/texto.cur), auto;

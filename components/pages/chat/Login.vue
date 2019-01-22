@@ -50,7 +50,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss" scope>
+body .v-modal {
+    opacity: 1;
+    background: #fff;
+}
 </style>
 

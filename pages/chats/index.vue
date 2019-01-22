@@ -2,22 +2,29 @@
 	<el-card>
         <Login @confirm="login"/>
         <div class="top"></div>
+        <Main v-if="my.fd" :my="my" :ws="websock" />
         <el-button @click="push">发送</el-button>
     </el-card>
 </template>
 
 <script>
 import Login from '@/components/pages/chat/Login';
+import Main from '@/components/pages/chat/Main';
 
 export default {
     components: {
-        Login
+        Login,
+        Main
     },
     data() {
         return {
             form: {
                 name: '',
                 message: 'message',
+            },
+            my: {
+                name: '',
+                fd: 0,
             },
             websock: null,
             list: [],
@@ -74,9 +81,11 @@ export default {
         login(data) {
             this.form.name = data.name;
             let params = {};
-            params = this.form;
-            params.fd = this.websock.fd;
-            this.$axios.$get('users', {params}).then((res) => {
+            params.data = {};
+            params.data.name = this.form.name;
+            params.data.fd = this.websock.fd;
+            this.my = params.data;
+            this.$axios.post('users', params).then((res) => {
                 console.log(res);
             });
         },
