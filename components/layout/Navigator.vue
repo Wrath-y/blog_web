@@ -8,9 +8,10 @@
                 <template slot="title">清单</template>
                 <el-menu-item index=""><a href="https://ysama.cn/music">歌单</a></el-menu-item>
                 <el-menu-item index="/lists/pixivs">图片</el-menu-item>
+                <el-menu-item index="/chats">chat</el-menu-item>
             </el-submenu>
             <el-menu-item index="/comments">留言板</el-menu-item>
-            <el-menu-item index="/friends">友人帐</el-menu-item>
+            <el-menu-item index="/harems">友人帐</el-menu-item>
             <el-menu-item index="/abouts">关于</el-menu-item>
         </el-menu>
     </div>
