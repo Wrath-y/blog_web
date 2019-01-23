@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import {Table, TableColumn, Pagination} from 'element-ui';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 
@@ -26,9 +25,6 @@ import Comment from '@/components/pages/Comment';
 export default {
     transition: 'page',
     components: {
-        [Table.name]: Table,
-        [TableColumn.name]: TableColumn,
-        [Pagination.name]: Pagination,
         Comment,
     },
     data() {
