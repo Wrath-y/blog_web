@@ -7,7 +7,7 @@
                 <template slot-scope="{$index, row}">
                     <div class="comment">
                         <div class="img">
-                            <img :src="row.email" />
+                            <img :src="row.image" />
                         </div>
                         <div class="info">
                             <div class="name">
@@ -28,7 +28,7 @@
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
                             <div class="img">
-                                <img :src="item.email" />
+                                <img :src="item.image" />
                             </div>
                             <div class="info">
                                 <div class="name">
@@ -64,6 +64,7 @@
 import {Table, TableColumn, Pagination} from 'element-ui';
 import Reply from '@/components/pages/Reply';
 import VueMarkdown from 'vue-markdown';
+import md5 from 'md5';
 
 export default {
     components: {
@@ -92,6 +93,7 @@ export default {
             await this.$axios.$get(url).then((res) => {
                 res.forEach((el) => {
                     el.reply = false;
+                    el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
                     return el;
                 });
                 let del_ids = [];
@@ -168,11 +170,11 @@ export default {
         float: left;
         width: 40px;
         height: 40px;
-        border-radius: 50%;
         margin-right: 10px;
         img {
             width: 41px;
             height: 41px;
+            border-radius: 50%;
         }
     }
     .info {
