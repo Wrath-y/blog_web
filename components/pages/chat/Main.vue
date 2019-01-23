@@ -1,23 +1,33 @@
 <template>
-    <el-card class="box">
-        <el-row>
+    <el-card class="box chat-box">
+        <Login @confirm="login"/>
+        <el-row v-if="my">
             <el-col :span="6">
                 <div class="user-list">
-                    <div class="item" v-for="item in user_list" :key="item.fd">
-                        <img src="" />
+                    <div class="item" :class="{'active': item.fd === target_user.fd}" v-for="item in user_list" :key="item.fd" @click="chooseTarget(item)">
+                        <img src="https://blog-ico.oss-cn-shanghai.aliyuncs.com/1.jpg" />
                         <span>{{item.name}}</span>
                     </div>
                 </div>
             </el-col>
             <el-col :span="18">
-                <div class="content"></div>
+                <div class="content">
+                    <div :class="{'text-right': item.source_fd === my.fd}" class="item" v-for="item in message_list" :key="item.fd">
+                        <img src="https://blog-ico.oss-cn-shanghai.aliyuncs.com/1.jpg" :class="{'float-right': item.source_fd === my.fd, 'float-left': item.source_fd !== my.fd}" />
+                        <div class="con">
+                            <span>{{item.data.source_name}}</span>
+                            <p>{{item.data.message}}</p>
+                        </div>
+                    </div>
+                </div>
                 <el-input
                     class="message"
                     type="textarea"
-                    :rows="3"
+                    :rows="4"
+                    resize="none"
                     placeholder="(ctrl + enter发送消息)"
-                    v-model="message"
-                    @keyup.enter.native.ctrl="submit">
+                    v-model="target_user.message"
+                    @keyup.enter.native.ctrl="push">
                 </el-input>
             </el-col>
         </el-row>
@@ -26,60 +36,143 @@
 
 <script>
 import {Row, Col, Input} from 'element-ui';
+import Login from '@/components/pages/chat/Login';
 
 export default {
     components: {
         [Row.name]: Row,
         [Col.name]: Col,
         [Input.name]: Input,
+        Login,
     },
     data() {
         return {
             loading: false,
             user_list: [
-                this.my,
+                {
+                    fd: 0,
+                    name: 'example',
+                }
             ],
-            target_user: null,
+            my: null,
+            websock: null,
+            target_user: {
+                fd: 0,
+                message: null,
+            },
             message_list: [],
-            message: null,
 		};
     },
-    props: ['my', 'ws'],
     methods: {
         fetchUserList() {
             this.loading = true;
             this.$axios.$get('users').then((res) => {
-                this.user_list = res.map((el) => {
-                    return JSON.parse(el);
-                });
+                if (res) {
+                    this.user_list = res.map((el) => {
+                        return JSON.parse(el);
+                    });
+                    this.user_list = this.user_list.filter(user => user.fd !== this.my.fd);
+                }
             }).finally(() => {
                 this.loading = false;
             });
         },
-        submit() {
-            if (!this.target_user) {
+        chooseTarget(user) {
+            this.target_user.fd = user.fd;
+            this.target_user.source_name = this.my.name
+        },
+        push() {
+            if (!this.target_user.fd || this.target_user.fd === this.my.fd) {
                 return this.$message.error('请选择聊天对象');
             }
+            let params = this.target_user;
+            this.message_list.push({
+                source_fd: this.my.fd,
+                data: params
+            });
+            //若是ws开启状态
+            if (this.websock.readyState === this.websock.OPEN) {
+                this.websocketsend(params)
+            }
+            // 若是 正在开启状态，则等待300毫秒
+            else if (this.websock.readyState === this.websock.CONNECTING) {
+                let that = this;//保存当前对象this
+                setTimeout(function () {
+                    that.websocketsend(params)
+                }, 300);
+            }
+            // 若未开启 ，则等待500毫秒
+            else {
+                this.initWebSocket();
+                let that = this;//保存当前对象this
+                setTimeout(function () {
+                    that.websocketsend(params)
+                }, 500);
+            }
+        },
+        initWebSocket() { //初始化weosocket
+            //ws地址
+            const wsuri = 'ws://127.0.0.1:9501';
+            this.websock = new WebSocket(wsuri);
+            this.websock.onmessage = this.websocketonmessage;
+            this.websock.onclose = this.websocketclose;
+        },
+        websocketonmessage(e){ //数据接收
+            let data = JSON.parse(e.data);
+            if (data === 'fetchUserList') {
+                this.fetchUserList();
+                return;
+            }
+            if (!this.websock.fd && data) {
+                this.websock.fd = data.fd;
+            }
+            if (data.source_fd) {
+              this.message_list.push(data);
+            }
+        },
+        websocketsend(data) {//数据发送
+            this.websock.send(JSON.stringify(data));
+        },
+        websocketclose(e) {  //关闭
+            this.$axios.delete('users?name=' + this.my.name);
+        },
+        login(data) {
             let params = {};
-            params = this.my;
-            params.message = this.message;
-            this.message_list.push(params);
-            this.ws.send(JSON.stringify(params));
-        }
+            params.data = {};
+            params.data.name = data.name;
+            params.data.fd = this.websock.fd;
+            this.my = params.data;
+            this.$axios.post('users', params).then((res) => {
+                this.websocketsend('fetchUserList');
+            });
+        },
     },
     mounted() {
-        this.fetchUserList();
+        this.initWebSocket();
+    },
+    beforeDestroy() {
+        this.websock.onclose;
     },
 };
 </script>
-<style lang="scss" scoped>
+<style>
+.chat-box .el-card__body {
+    padding-left: 0px !important;
+}
+</style>
+
+<style lang="scss">
 .box {
     width: 50%;
     margin: auto;
     .user-list {
+        height: 500px;
+        overflow-y: scroll;
         .item {
             height: 40px;
             line-height: 40px;
+            margin: 5px 0;
+            padding: 10px 0 10px 20px;
             img {
                 float: left;
                 width: 40px;
@@ -90,10 +183,66 @@ export default {
                 margin-left: 10px;
             }
         }
+        .active {
+            background: rgb(236, 236, 236);
+        }
+    }
+    .user-list::-webkit-scrollbar {
+        width: 5px;
+    }
+    .user-list::-webkit-scrollbar-track {
+        background-color: #fff;
+    }
+    .user-list::-webkit-scrollbar-thumb {
+        background-color: #cecece;
     }
     .content {
-        padding: 50px;
-        background: rgb(82, 78, 78);
+        height: 425px;
+        overflow-y: scroll;
+        border-left: 1px solid #cecece;
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        p {
+            margin: 0;
+        }
+        .float-left {
+            float: left;
+        }
+        .float-right {
+            float: right;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .item {
+            margin: 10px 0;
+            img {
+                width: 30px;
+                height: 30px;
+                margin: 0 10px;
+                border-radius: 50%;
+            }
+            .con {
+                span {
+                    font-weight: 100;
+                    font-family: MicroSoft Yahei;
+                    color: rgb(175, 174, 174);
+                }
+            }
+        }
+    }
+    .content::-webkit-scrollbar {
+        width: 5px;
+        position:relative;
+    }
+    .content::-webkit-scrollbar-track {
+        background-color: #fff;
+    }
+    .content::-webkit-scrollbar-thumb {
+        background-color: #cecece;
     }
     .message {
         background: #ddd;
