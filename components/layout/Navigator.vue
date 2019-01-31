@@ -6,7 +6,7 @@
             <el-menu-item index="/time-series">归档</el-menu-item>
             <el-submenu :show-timeout='100' :hide-timeout='100' index="/lists">
                 <template slot="title">清单</template>
-                <el-menu-item index=""><a href="https://ysama.cn/music">歌单</a></el-menu-item>
+                <el-menu-item index="/lists/music"><a href="https://ysama.cn/music">歌单</a></el-menu-item>
                 <el-menu-item index="/lists/pixivs">图片</el-menu-item>
                 <el-menu-item index="/chats">chat</el-menu-item>
             </el-submenu>
