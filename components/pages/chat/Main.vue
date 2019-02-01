@@ -54,7 +54,9 @@ export default {
                     name: 'example',
                 }
             ],
-            my: null,
+            my: {
+				fd: 0,
+			},
             websock: null,
             target_user: {
                 fd: 0,
@@ -70,8 +72,10 @@ export default {
                 if (res) {
                     this.user_list = res.map((el) => {
                         return JSON.parse(el);
-                    });
-                    this.user_list = this.user_list.filter(user => user.fd !== this.my.fd);
+					});
+					if (this.user_list.length > 1) {
+						this.user_list = this.user_list.filter(user => user.fd !== this.my.fd);
+					}
                 }
             }).finally(() => {
                 this.loading = false;
@@ -82,10 +86,14 @@ export default {
             this.target_user.source_name = this.my.name
         },
         push() {
-            if (!this.target_user.fd || this.target_user.fd === this.my.fd) {
+            if (!this.target_user.fd) {
                 return this.$message.error('请选择聊天对象');
-            }
-            let params = this.target_user;
+			}
+			if (this.target_user.fd === this.my.fd) {
+				return this.$message.error('请不要自言自语');
+			}
+			let params = Object.assign({}, this.target_user);
+			this.target_user.message = null;
             this.message_list.push({
                 source_fd: this.my.fd,
                 data: params
@@ -117,7 +125,7 @@ export default {
             this.websock.onmessage = this.websocketonmessage;
             this.websock.onclose = this.websocketclose;
         },
-        websocketonmessage(e){ //数据接收
+		websocketonmessage(e){ //数据接收
             let data = JSON.parse(e.data);
             if (data === 'fetchUserList') {
                 this.fetchUserList();
