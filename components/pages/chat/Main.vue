@@ -92,7 +92,8 @@ export default {
 			if (this.target_user.fd === this.my.fd) {
 				return this.$message.error('请不要自言自语');
 			}
-            let params = this.target_user;
+			let params = Object.assign({}, this.target_user);
+			this.target_user.message = null;
             this.message_list.push({
                 source_fd: this.my.fd,
                 data: params
