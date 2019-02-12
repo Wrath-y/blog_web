@@ -4,7 +4,7 @@
         <el-row v-if="my">
             <el-col :span="6">
                 <div class="user-list">
-                    <div class="item" :class="{'active': item.fd === target_user.fd}" v-for="item in user_list" :key="item.fd" @click="chooseTarget(item)">
+                    <div class="item" :class="{'active': item.fd === target_user.target_fd}" v-for="item in user_list" :key="item.fd" @click="chooseTarget(item)">
                         <img src="https://blog-ico.oss-cn-shanghai.aliyuncs.com/1.jpg" />
                         <span>{{item.name}}</span>
                     </div>
@@ -12,6 +12,9 @@
             </el-col>
             <el-col :span="18">
                 <div class="content">
+					<div class="history" v-if="target_user.target_fd">
+						<a @click="getLogs">历史记录</a>
+					</div>
                     <div :class="{'text-right': item.source_fd === my.fd}" class="item" v-for="item in message_list" :key="item.fd">
                         <img src="https://blog-ico.oss-cn-shanghai.aliyuncs.com/1.jpg" :class="{'float-right': item.source_fd === my.fd, 'float-left': item.source_fd !== my.fd}" />
                         <div class="con">
@@ -56,10 +59,11 @@ export default {
             ],
             my: {
 				fd: 0,
+				name: '',
 			},
             websock: null,
             target_user: {
-                fd: 0,
+                target_fd: 0,
                 message: null,
             },
             message_list: [],
@@ -82,14 +86,15 @@ export default {
             });
         },
         chooseTarget(user) {
-            this.target_user.fd = user.fd;
-            this.target_user.source_name = this.my.name
+			this.target_user.target_fd = user.fd;
+			this.target_user.source_name = this.my.name
+			this.target_user.target_name = user.name
         },
         push() {
-            if (!this.target_user.fd) {
+            if (!this.target_user.target_fd) {
                 return this.$message.error('请选择聊天对象');
 			}
-			if (this.target_user.fd === this.my.fd) {
+			if (this.target_user.target_fd === this.my.fd) {
 				return this.$message.error('请不要自言自语');
 			}
 			let params = Object.assign({}, this.target_user);
@@ -97,7 +102,7 @@ export default {
             this.message_list.push({
                 source_fd: this.my.fd,
                 data: params
-            });
+			});
             //若是ws开启状态
             if (this.websock.readyState === this.websock.OPEN) {
                 this.websocketsend(params)
@@ -153,7 +158,38 @@ export default {
             this.$axios.post('users', params).then((res) => {
                 this.websocketsend('fetchUserList');
             });
-        },
+		},
+		getLogs() {
+			let params = {};
+			params.target_name = this.target_user.target_name;
+			params.source_name = this.target_user.source_name;
+			this.$axios.get('chat-logs', {params}).then((res) => {
+				let logs = res.data.map((el) => {
+					if (el.source_name === this.my.name) {
+						return {
+							source_fd: this.my.fd,
+							data: {
+								message: el.data,
+								source_name: el.source_name,
+								target_name: el.target_name,
+								target_fd: this.target_user.target_fd,
+							}
+						};
+					}
+
+					return {
+						source_fd: this.target_user.target_fd,
+						data: {
+							message: el.data,
+							source_name: el.source_name,
+							target_name: el.target_name,
+							target_fd: this.my.fd,
+						}
+					};
+				});
+				this.message_list = logs;
+			});
+		},
     },
     mounted() {
         this.initWebSocket();
@@ -241,6 +277,12 @@ export default {
                 }
             }
         }
+		.history {
+			text-align: center;
+			a {
+				font-size: 14px;
+			}
+		}
     }
     .content::-webkit-scrollbar {
         width: 5px;
