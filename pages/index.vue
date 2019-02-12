@@ -65,11 +65,11 @@ export default {
             list: [],
             lastId: 0,
             loading: false,
-		    };
+		};
     },
     methods: {
         async fetchList() {
-            let params = {};
+            let params = this.form;
             if (this.lastId) {
                 params.lastId = this.lastId;
             }
