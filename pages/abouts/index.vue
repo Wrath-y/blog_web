@@ -1,21 +1,61 @@
 <template>
-	<el-card>
-    </el-card>
+    <div class="wrap">
+        <div class="top"></div>
+        <el-card v-loading="loading">
+            <div v-html="form.html"></div>
+        </el-card>
+    </div>
 </template>
 
 <script>
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
+
+const highlightCode = () => {
+    const preEl = document.querySelectorAll('pre')
+
+    preEl.forEach((el) => {
+      hljs.highlightBlock(el)
+    })
+}
+
 export default {
+    transition: 'page',
     components: {
     },
     data() {
         return {
             loading: false,
-		};
+            form: {},
+    };
     },
+    computed: {},
+    watch: {},
     methods: {
+        async fetchData() {
+            this.loading = true;
+            await this.$axios.$get(`articles/2`).then((res) => {
+                this.form = res;
+            }).finally(() => this.loading = false);
+        },
+
     },
     mounted() {
+        this.fetchData();
     },
+    updated () {
+        highlightCode()
+    }
 };
 </script>
+
+<style scoped lang="scss">
+.wrap {
+    width: 50%;
+    margin: auto;
+    .top {
+        padding-top: 81px;
+    }
+}
+</style>
 
