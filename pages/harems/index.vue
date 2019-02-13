@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import md5 from 'md5';
+
 export default {
     components: {},
     data() {
@@ -26,7 +28,11 @@ export default {
             this.loading = true;
             this.$axios.$get('harems').then((res) => {
                 if (res) {
-                    this.list = res;
+                    this.list = res.map((el) => {
+						el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
+
+						return el;
+					});
                 }
             }).finally(() => {
                 this.loading = false;
