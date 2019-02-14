@@ -2,7 +2,7 @@
     <div>
         <div class="headertop trans filter-dot">
             <div class="header-bg-post">
-                <img class="header-bg-img" src="../assets/images/header.png" />
+                <img class="header-bg-img" src="https://ysama.oss-cn-hongkong.aliyuncs.com/header.png" />
             </div>
         </div>
         <div class="list" v-loading="loading">

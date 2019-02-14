@@ -1,7 +1,7 @@
 <template>
     <el-card class="comment">
         <h3>Comments</h3>
-        <Reply v-if="this.showTopReply" />
+        <Reply v-if="this.showTopReply" @refresh="fetchComment" />
         <el-table :data="list" v-loading="loading">
             <el-table-column>
                 <template slot-scope="{$index, row}">
@@ -23,7 +23,7 @@
                         <div class="content">
                             <vue-markdown>{{row.content}}</vue-markdown>
                         </div>
-                        <Reply v-if="row.reply" :row="row" :reply_to="reply_to" @cancel="cancelBtn($index, row)" />
+                        <Reply v-if="row.reply" :row="row" :reply_to="reply_to" @cancel="cancelBtn($index, row)" @refresh="fetchComment" />
                     </div>
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
@@ -44,7 +44,7 @@
                             <div class="content">
                                 <vue-markdown>{{item.content}}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :row="item" :reply_to="reply_to" :pid="row.id" :ppid="item.id" @cancel="cancelBtn(index, item, $index)" />
+                            <Reply v-if="item.reply" :row="item" :reply_to="reply_to" :pid="row.id" :ppid="item.id" @cancel="cancelBtn(index, item, $index)" @refresh="fetchComment" />
                         </div>
                     </div>
                 </template>

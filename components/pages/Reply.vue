@@ -35,8 +35,8 @@ export default {
                 url: '',
                 content: this.reply_to ? this.reply_to + '  ' : '',
                 article_id: Number(this.$route.params.id),
-                pid: this.pid,
-                ppid: this.ppid
+                pid: this.pid || 0,
+                ppid: this.ppid || 0
             },
 		};
     },
@@ -48,7 +48,8 @@ export default {
                 this.$message.success('发送成功');
             }).finally(() => {
                 this.loading = false;
-                this.$emit('cancel')
+				this.$emit('cancel')
+				this.$emit('refresh')
             });
         }
     },
