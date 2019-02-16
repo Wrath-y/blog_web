@@ -9,18 +9,18 @@
             <div class="main-content">
                 <el-card v-for="(item, index) in list" :key="index" class="post-card">
                     <div class="post-image" :class="{'float-right': index % 2 !== 0}">
-                        <a href="">
-                            <img :src="item.image" />
-                        </a>
+                        <img :src="item.image" />
                     </div>
                     <div class="post-con" :class="{'float-right': index % 2 == 0}">
                         <div class="post-date" :class="{'text-right': index % 2 == 0}">
                             <i class="el-icon-time"></i>
                             {{getNowFormatDate(item.createdAt)}}
                         </div>
-                        <a :href="`/articles/${item.id}`">
-                            <h3>{{item.title}}</h3>
-                        </a>
+                        <nuxt-link :to="`/articles/${item.id}`">
+                            <a href="#">
+                                <h3>{{item.title}}</h3>
+                            </a>
+                        </nuxt-link>
                         <div class="post-meta" :class="{'text-right': index % 2 == 0}">
                             <span>
                                 <i class="el-icon-view"></i>
@@ -39,9 +39,11 @@
                             <p v-html="item.html"></p>
                         </div>
                         <div class="post-bottom" :class="{'text-right': index % 2 == 0}">
-                            <a href="">
-                                <i class="el-icon-more"></i>
-                            </a>
+                            <nuxt-link :to="`/articles/${item.id}`">
+                                <a href="#">
+                                    <i class="el-icon-more"></i>
+                                </a>
+                            </nuxt-link>
                         </div>
                     </div>
                 </el-card>
