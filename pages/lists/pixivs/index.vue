@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         async fetchList() {
-            await this.$axios.get('https://wrath.cc:8081/pixivs?' + this.toQuery(this.form)).then((res) => {
+            await this.$axios.get('https://wrath.cc/go/pixivs?' + this.toQuery(this.form)).then((res) => {
                 if (res) {
                     this.list = this.list.concat(res.Data.Objects.map((i) => {
                         i.Key = 'https://gilgamesh.oss-cn-hongkong.aliyuncs.com/' + this.encodeUrl(i.Key);
