@@ -114,10 +114,10 @@ export default {
 
 <style scoped lang="scss">
 .headertop.filter-dot::before {
-    background-image: url('../assets/images/dot.gif')
+    background-image: url('https://blog-ico.oss-cn-shanghai.aliyuncs.com/dot.gif')
 }
 .headertop {
-    height: auto;
+    max-height: 938px;
     position: relative;
     overflow: hidden;
 }
@@ -132,7 +132,7 @@ export default {
     background-attachment: fixed;
 }
 .header-bg-post {
-    height: 938px;
+    max-height: 938px;
     overflow: hidden;
 }
 .header-bg-img {
