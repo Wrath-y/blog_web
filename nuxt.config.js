@@ -69,5 +69,14 @@ module.exports = {
       'element-ui',
       'waterfall',
     ]
+  },
+  generate: {
+    routes: function() {
+      let arr = [];
+      for (let i = 1; i < 100; i++) {
+        arr.push('/articles/' + i);
+      }
+      return arr;
+    }
   }
 }
