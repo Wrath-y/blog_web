@@ -72,7 +72,7 @@ export default {
     methods: {
         fetchUserList() {
             this.loading = true;
-            this.$axios.$get('http://localhost/php/users').then((res) => {
+            this.$axios.$get('https://wrath.cc/php/users').then((res) => {
                 if (res) {
                     this.user_list = res.map((el) => {
                         return JSON.parse(el);
@@ -147,7 +147,7 @@ export default {
             this.websock.send(JSON.stringify(data));
         },
         websocketclose(e) {  //关闭
-            this.$axios.delete('http://localhost/php/users?name=' + this.my.name);
+            this.$axios.delete('https://wrath.cc/php/users?name=' + this.my.name);
         },
         login(data) {
             let params = {};
@@ -155,7 +155,7 @@ export default {
             params.data.name = data.name;
             params.data.fd = this.websock.fd;
             this.my = params.data;
-            this.$axios.post('http://localhost/php/users', params).then((res) => {
+            this.$axios.post('https://wrath.cc/php/users', params).then((res) => {
                 this.websocketsend('fetchUserList');
             });
 		},
@@ -163,7 +163,7 @@ export default {
 			let params = {};
 			params.target_name = this.target_user.target_name;
 			params.source_name = this.target_user.source_name;
-			this.$axios.get('http://localhost/php/chat-logs', {params}).then((res) => {
+			this.$axios.get('https://wrath.cc/php/chat-logs', {params}).then((res) => {
 				let logs = res.data.map((el) => {
 					if (el.source_name === this.my.name) {
 						return {
