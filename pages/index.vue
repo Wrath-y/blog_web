@@ -30,7 +30,7 @@
                                 <i class="el-icon-edit"></i>
                                 {{item.commentCount || 0}}条评论
                             </span>
-                            <span>
+                            <span class="tags" @click="chooseTag(item.tags)">
                                 <i class="el-icon-document"></i>
                                 {{item.tags}}
                             </span>
@@ -71,10 +71,10 @@ export default {
     },
     methods: {
         async fetchList() {
-            let params = this.form;
             if (this.lastId) {
-                params.lastId = this.lastId;
+                this.form.lastId = this.lastId;
             }
+            let params = this.form;
             await this.$axios.$get('articles', {params}).then((res) => {
                 if (res) {
                     this.list = this.list.concat(res);
@@ -102,6 +102,13 @@ export default {
                 this.fetchList();
             }
         },
+        chooseTag(tag) {
+            this.list = [];
+            this.form = {};
+            this.lastId = 0;
+            this.form.tag = tag;
+            this.fetchList();
+        }
     },
     created() {
         this.fetchList();
@@ -180,6 +187,10 @@ export default {
                     span {
                         width: 33.3%;
                     }
+                    .tags:hover {
+                        color: #e67474;
+                        cursor: url(https://gilgamesh-10047150.cos.ap-shanghai.myqcloud.com/ayuda.cur),auto;
+                    }
                 }
                 .post-intro {
                     color: rgba(0,0,0,.66);
@@ -201,6 +212,7 @@ export default {
                     -webkit-line-clamp: 2;
                     overflow: hidden;
                     word-wrap: break-word;
+                    margin: 10px 0 14px 0;
                 }
                 .post-bottom {
                     font-size: 26px;

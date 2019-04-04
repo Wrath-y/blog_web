@@ -3,7 +3,6 @@
         <div class="logo"></div>
         <el-menu router class="navbar" mode="horizontal">
             <el-menu-item index="/">首页</el-menu-item>
-            <el-menu-item disabled index="/categories">分类</el-menu-item>
             <el-submenu :show-timeout='100' :hide-timeout='100' index="/lists">
                 <template slot="title">清单</template>
                 <el-menu-item index="/lists/musics"><a href="https://wrath.cc/music">歌单</a></el-menu-item>
