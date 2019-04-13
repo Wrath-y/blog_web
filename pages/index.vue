@@ -36,7 +36,7 @@
                             </span>
                         </div>
                         <div class="post-intro">
-                            <p v-html="item.html"></p>
+                            <p>{{item.con}}</p>
                         </div>
                         <div class="post-bottom" :class="{'text-right': index % 2 == 0}">
                             <nuxt-link :to="`/articles/${item.id}`">
@@ -184,6 +184,7 @@ export default {
                     font-size: 12px;
                 }
                 .post-meta {
+                    margin-bottom: 15px;
                     span {
                         width: 33.3%;
                     }
@@ -196,13 +197,25 @@ export default {
                     color: rgba(0,0,0,.66);
                     margin-bottom: 15px;
                     p {
+                        position:relative;
                         margin: 0;
+                        line-height: 30px;
                         font-size: 16px;
-                        display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 3;
+                        overflow : hidden;
+                        // text-overflow: ellipsis;
+                        // display: -webkit-box;
+                        // -webkit-line-clamp: 3;
+                        // -webkit-box-orient: vertical;
                         height: 87.5px;
-                        overflow: hidden;
+                    }
+                    p::after {
+                        content:"...";
+                        font-weight:bold;
+                        position:absolute;
+                        bottom:0;
+                        right:0;
+                        padding:0 20px 1px 45px;
+                        background:url(https://blog-ico.oss-cn-shanghai.aliyuncs.com/ellipsis_bg.png) repeat-y;
                     }
                 }
                 h3 {
