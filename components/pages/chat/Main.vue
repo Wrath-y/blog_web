@@ -125,7 +125,7 @@ export default {
         },
         initWebSocket() { //初始化weosocket
             //ws地址
-            const wsuri = 'ws://127.0.0.1:9501';
+            const wsuri = 'https://wrath.cc/ws/chat';
             this.websock = new WebSocket(wsuri);
             this.websock.onmessage = this.websocketonmessage;
             this.websock.onclose = this.websocketclose;
