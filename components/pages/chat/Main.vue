@@ -74,7 +74,7 @@ export default {
             this.loading = true;
             this.$axios.$get('https://wrath.cc/php/users').then((res) => {
                 if (res) {
-                    this.user_list = res.map((el) => {
+                    this.user_list = res.data.map((el) => {
                         return JSON.parse(el);
 					});
 					if (this.user_list.length > 1) {
