@@ -130,7 +130,8 @@ export default {
             this.websock.onmessage = this.websocketonmessage;
             this.websock.onclose = this.websocketclose;
         },
-		websocketonmessage(e){ //数据接收
+        websocketonmessage(e){ //数据接收
+            console.log(e);
             let data = JSON.parse(e.data);
             if (data === 'fetchUserList') {
                 this.fetchUserList();
