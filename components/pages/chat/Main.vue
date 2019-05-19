@@ -18,8 +18,8 @@
                     <div :class="{'text-right': item.source_fd === my.fd}" class="item" v-for="item in message_list" :key="item.fd">
                         <img src="https://blog-ico.oss-cn-shanghai.aliyuncs.com/1.jpg" :class="{'float-right': item.source_fd === my.fd, 'float-left': item.source_fd !== my.fd}" />
                         <div class="con">
-                            <span>{{item.data.source_name}}</span>
-                            <p>{{item.data.message}}</p>
+                            <span>{{item.source_name}}</span>
+                            <p>{{item.message}}</p>
                         </div>
                     </div>
                 </div>
@@ -67,12 +67,18 @@ export default {
                 message: null,
             },
             message_list: [],
+            ws_data: {
+                url: '',
+                type: 'get',
+                data: null,
+            },
 		};
     },
     methods: {
         fetchUserList() {
             this.loading = true;
             this.$axios.$get('https://wrath.cc/php/users').then((res) => {
+            // this.$axios.$get('http://localhost/php/api/users').then((res) => {
                 if (res) {
                     this.user_list = res.map((el) => {
                         return JSON.parse(el);
@@ -87,8 +93,9 @@ export default {
         },
         chooseTarget(user) {
 			this.target_user.target_fd = user.fd;
-			this.target_user.source_name = this.my.name
-			this.target_user.target_name = user.name
+			this.target_user.source_name = this.my.name;
+            this.target_user.target_name = user.name
+            this.target_user.source_fd= this.my.fd;
         },
         push() {
             if (!this.target_user.target_fd) {
@@ -96,22 +103,21 @@ export default {
 			}
 			if (this.target_user.target_fd === this.my.fd) {
 				return this.$message.error('请不要自言自语');
-			}
-			let params = Object.assign({}, this.target_user);
+            }
+            this.ws_data.url = '/ws/chats';
+            this.ws_data.type = 'post';
+			this.ws_data.data = Object.assign({}, this.target_user);
 			this.target_user.message = null;
-            this.message_list.push({
-                source_fd: this.my.fd,
-                data: params
-			});
+            this.message_list.push(this.ws_data.data);
             //若是ws开启状态
             if (this.websock.readyState === this.websock.OPEN) {
-                this.websocketsend(params)
+                this.websocketsend()
             }
             // 若是 正在开启状态，则等待300毫秒
             else if (this.websock.readyState === this.websock.CONNECTING) {
                 let that = this;//保存当前对象this
                 setTimeout(function () {
-                    that.websocketsend(params)
+                    that.websocketsend()
                 }, 300);
             }
             // 若未开启 ，则等待500毫秒
@@ -119,36 +125,40 @@ export default {
                 this.initWebSocket();
                 let that = this;//保存当前对象this
                 setTimeout(function () {
-                    that.websocketsend(params)
+                    that.websocketsend()
                 }, 500);
             }
         },
         initWebSocket() { //初始化weosocket
             //ws地址
             const wsuri = 'wss://wrath.cc/ws/chat/';
+            // const wsuri = 'ws://localhost:9501';
             this.websock = new WebSocket(wsuri);
             this.websock.onmessage = this.websocketonmessage;
             this.websock.onclose = this.websocketclose;
         },
         websocketonmessage(e){ //数据接收
-            console.log(e);
-            let data = JSON.parse(e.data);
+            let res = JSON.parse(e.data);
+            if (res.code != 0) {
+                return this.$message.success('服务器异常');
+            }
+            let data = res.data;
             if (data === 'fetchUserList') {
                 this.fetchUserList();
                 return;
             }
-            if (!this.websock.fd && data) {
+            if (!this.websock.fd) {
                 this.websock.fd = data.fd;
             }
             if (data.source_fd) {
               this.message_list.push(data);
             }
         },
-        websocketsend(data) {//数据发送
-            this.websock.send(JSON.stringify(data));
+        websocketsend() {//数据发送
+            this.websock.send(JSON.stringify(this.ws_data));
         },
         websocketclose(e) {  //关闭
-            this.$axios.delete('https://wrath.cc/php/users?name=' + this.my.name);
+            this.$axios.delete('https://wrath.cc/php/api/users?name=' + this.my.name);
         },
         login(data) {
             let params = {};
@@ -156,39 +166,18 @@ export default {
             params.data.name = data.name;
             params.data.fd = this.websock.fd;
             this.my = params.data;
-            this.$axios.post('https://wrath.cc/php/users', params).then((res) => {
-                this.websocketsend('fetchUserList');
+            this.$axios.post('https://wrath.cc/php/api/users', params).then((res) => {
+                this.ws_data.url = '/ws/chat_users';
+                this.ws_data.data = 'fetchUserList';
+                this.websocketsend();
             });
 		},
 		getLogs() {
 			let params = {};
 			params.target_name = this.target_user.target_name;
 			params.source_name = this.target_user.source_name;
-			this.$axios.get('https://wrath.cc/php/chat-logs', {params}).then((res) => {
-				let logs = res.data.map((el) => {
-					if (el.source_name === this.my.name) {
-						return {
-							source_fd: this.my.fd,
-							data: {
-								message: el.data,
-								source_name: el.source_name,
-								target_name: el.target_name,
-								target_fd: this.target_user.target_fd,
-							}
-						};
-					}
-
-					return {
-						source_fd: this.target_user.target_fd,
-						data: {
-							message: el.data,
-							source_name: el.source_name,
-							target_name: el.target_name,
-							target_fd: this.my.fd,
-						}
-					};
-				});
-				this.message_list = logs;
+			this.$axios.get('https://wrath.cc/php/api/chat-logs', {params}).then((res) => {
+				this.message_list = res.data;
 			});
 		},
     },
