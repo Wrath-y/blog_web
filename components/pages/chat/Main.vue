@@ -158,7 +158,7 @@ export default {
             this.websock.send(JSON.stringify(this.ws_data));
         },
         websocketclose(e) {  //关闭
-            this.$axios.delete('https://wrath.cc/php/api/users?name=' + this.my.name);
+            this.$axios.delete('https://wrath.cc/php/users?name=' + this.my.name);
         },
         login(data) {
             let params = {};
@@ -166,7 +166,7 @@ export default {
             params.data.name = data.name;
             params.data.fd = this.websock.fd;
             this.my = params.data;
-            this.$axios.post('https://wrath.cc/php/api/users', params).then((res) => {
+            this.$axios.post('https://wrath.cc/php/users', params).then((res) => {
                 this.ws_data.url = '/ws/chat_users';
                 this.ws_data.data = 'fetchUserList';
                 this.websocketsend();
@@ -176,7 +176,7 @@ export default {
 			let params = {};
 			params.target_name = this.target_user.target_name;
 			params.source_name = this.target_user.source_name;
-			this.$axios.get('https://wrath.cc/php/api/chat-logs', {params}).then((res) => {
+			this.$axios.get('https://wrath.cc/php/chat-logs', {params}).then((res) => {
 				this.message_list = res.data;
 			});
 		},
