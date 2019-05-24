@@ -2,8 +2,8 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "ysama@blog blog 技术 动漫 pixiv 网易云 音乐 动漫图片",
-  "author": "Gilgamesh",
-  "private": true,
+  "author": "wrath",
+  "private": false,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
