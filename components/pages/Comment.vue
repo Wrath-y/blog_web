@@ -1,7 +1,7 @@
 <template>
     <el-card class="comment">
         <h3>Comments</h3>
-        <Reply v-if="this.showTopReply" @refresh="fetchComment" />
+        <Reply v-if="this.showTopReply" @refresh="fetchComment" :article_id="id" />
         <el-table :data="list" v-loading="loading">
             <el-table-column>
                 <template slot-scope="{$index, row}">
