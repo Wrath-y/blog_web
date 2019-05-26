@@ -44,7 +44,7 @@
                             <div class="content">
                                 <vue-markdown>{{item.content}}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :row="item" :reply_to="reply_to" :pid="row.id" :ppid="item.id" @cancel="cancelBtn(index, item, $index)" @refresh="fetchComment" />
+                            <Reply v-if="item.reply" :row="item" :reply_to="reply_to" :pid="item.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn(index, item, $index)" @refresh="fetchComment" />
                         </div>
                     </div>
                 </template>
