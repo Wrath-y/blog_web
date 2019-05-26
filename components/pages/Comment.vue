@@ -23,7 +23,7 @@
                         <div class="content">
                             <vue-markdown>{{row.content}}</vue-markdown>
                         </div>
-                        <Reply v-if="row.reply" :row="row" :reply_to="reply_to" @cancel="cancelBtn($index, row)" @refresh="fetchComment" />
+                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" :article_id="id" @cancel="cancelBtn($index, row)" @refresh="fetchComment" />
                     </div>
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
@@ -44,7 +44,7 @@
                             <div class="content">
                                 <vue-markdown>{{item.content}}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :row="item" :reply_to="reply_to" :pid="item.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn(index, item, $index)" @refresh="fetchComment" />
+                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn(index, item, $index)" @refresh="fetchComment" />
                         </div>
                     </div>
                 </template>

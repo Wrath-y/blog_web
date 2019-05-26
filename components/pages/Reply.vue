@@ -14,7 +14,7 @@
         </div>
         <div class="buttom-btn">
             <el-button class="submit-btn" @click="submit">点击就送...</el-button>
-            <el-button v-if="this.row" class="cancel-btn" @click="$emit('cancel')">CANCEL</el-button>
+            <el-button v-if="this.pid" class="cancel-btn" @click="$emit('cancel')">CANCEL</el-button>
         </div>
     </div>
 </template>
@@ -40,9 +40,10 @@ export default {
             },
 		};
     },
-    props: ['row', 'reply_to', 'pid', 'ppid', 'article_id'],
+    props: ['reply_to', 'pid', 'ppid', 'article_id'],
     methods: {
         submit() {
+            return console.log(this.pid);
             this.loading = true;
             this.$axios.post('comments', this.form).then((res) => {
                 this.$message.success('发送成功');
