@@ -86,8 +86,12 @@ export default {
             reply_to: '',
         };
     },
+    props: ["id"],
     methods: {
         async fetchComment() {
+            if (!this.$route.params.id > 0) {
+                this.$route.params.id = this.id;
+            }
             this.loading = true;
             let url = this.list.length ? `comments?article_id=${this.$route.params.id}&last_id=${this.list[this.list.length - 1].id}` : `comments?article_id=${this.$route.params.id}`;
             await this.$axios.$get(url).then((res) => {
@@ -114,6 +118,9 @@ export default {
             }).finally(() => this.loading = false);
         },
         async fetchTotal() {
+            if (!this.$route.params.id > 0) {
+                this.$route.params.id = this.id;
+            }
             this.loading = true;
             await this.$axios.$get(`comments/count?article_id=${this.$route.params.id}`).then((res) => {
                 this.pagination.total = res;

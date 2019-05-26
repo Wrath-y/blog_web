@@ -4,7 +4,7 @@
         <el-card v-loading="loading">
             <div v-html="form.html"></div>
         </el-card>
-        <Comment />
+        <Comment :id=1 />
     </div>
 </template>
 
