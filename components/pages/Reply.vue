@@ -43,7 +43,6 @@ export default {
     props: ['reply_to', 'pid', 'ppid', 'article_id'],
     methods: {
         submit() {
-            return console.log(this.pid);
             this.loading = true;
             this.$axios.post('comments', this.form).then((res) => {
                 this.$message.success('发送成功');

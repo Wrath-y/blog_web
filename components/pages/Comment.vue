@@ -23,7 +23,7 @@
                         <div class="content">
                             <vue-markdown>{{row.content}}</vue-markdown>
                         </div>
-                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" :article_id="id" @cancel="cancelBtn($index, row)" @refresh="fetchComment" />
+                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" :article_id="id" @cancel="cancelBtn" @refresh="fetchComment" />
                     </div>
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
@@ -44,7 +44,7 @@
                             <div class="content">
                                 <vue-markdown>{{item.content}}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn(index, item, $index)" @refresh="fetchComment" />
+                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn" @refresh="fetchComment" />
                         </div>
                     </div>
                 </template>
@@ -79,7 +79,7 @@ export default {
             loading: false,
             list: [],
             pagination: {
-                total: 10,
+                total: 0,
                 page_size: 6,
             },
             showTopReply: true,
@@ -89,11 +89,12 @@ export default {
     props: ["id"],
     methods: {
         async fetchComment() {
+            this.fetchTotal();
             if (!this.$route.params.id > 0) {
                 this.$route.params.id = this.id;
             }
             this.loading = true;
-            let url = this.list.length ? `comments?article_id=${this.$route.params.id}&last_id=${this.list[this.list.length - 1].id}` : `comments?article_id=${this.$route.params.id}`;
+            let url = this.pagination.total ? `comments?article_id=${this.$route.params.id}&last_id=${this.list[this.list.length - 1].id}` : `comments?article_id=${this.$route.params.id}`;
             await this.$axios.$get(url).then((res) => {
                 res.forEach((el) => {
                     el.reply = false;
@@ -101,6 +102,7 @@ export default {
                     return el;
                 });
                 let del_ids = [];
+                this.list = [];
                 this.list = res.map((el) => {
                     el.childs = res.filter((e) => {
                         if (e.pid === el.id) {
@@ -138,25 +140,13 @@ export default {
                 return el;
             });
             row.reply = true;
-            if (parent_index > -1) {
-                this.list[parent_index].childs[index] = row;
-            } else {
-                this.$set(this.list, index, row);
-            }
         },
-        cancelBtn(index, row, parent_index = -1) {
+        cancelBtn() {
             this.reply_to = '';
             this.showTopReply = true;
-            row.reply = false;
-            if (parent_index > -1) {
-                this.list[parent_index].childs[index] = row;
-            } else {
-                this.$set(this.list, index, row);
-            }
         },
     },
     mounted() {
-        this.fetchTotal();
         this.fetchComment();
     }
 };
