@@ -1,7 +1,7 @@
 <template>
     <el-card class="comment">
         <h3>Comments</h3>
-        <Reply v-if="this.showTopReply" @refresh="fetchComment" :article_id="id" />
+        <Reply v-if="this.show_to_reply" @refresh="fetchComment" :article_id="id" />
         <el-table :data="list" v-loading="loading">
             <el-table-column>
                 <template slot-scope="{$index, row}">
@@ -82,41 +82,23 @@ export default {
                 total: 0,
                 page_size: 6,
             },
-            showTopReply: true,
+            show_to_reply: true,
             reply_to: '',
+            last_id: [],
+            current_page: 0,
         };
     },
     props: ["id"],
     methods: {
-        async fetchComment() {
+        async fetchComment(page = 1) {
             this.fetchTotal();
             if (!this.$route.params.id > 0) {
                 this.$route.params.id = this.id;
             }
+            let url = page > 1 ? `comments?article_id=${this.$route.params.id}&last_id=${this.last_id[page]}` : `comments?article_id=${this.$route.params.id}`;
             this.loading = true;
-            let url = this.pagination.total ? `comments?article_id=${this.$route.params.id}&last_id=${this.list[this.list.length - 1].id}` : `comments?article_id=${this.$route.params.id}`;
             await this.$axios.$get(url).then((res) => {
-                res.forEach((el) => {
-                    el.reply = false;
-                    el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
-                    return el;
-                });
-                let del_ids = [];
-                this.list = [];
-                this.list = res.map((el) => {
-                    el.childs = res.filter((e) => {
-                        if (e.pid === el.id) {
-                            del_ids.push(e.id);
-                            return true;
-                        }
-                        return false;
-                    });
-                    return el;
-                }).filter((el) => {
-                    return !del_ids.find((e) => {
-                        return e === el.id;
-                    });
-                });
+                this.format(res, page);
             }).finally(() => this.loading = false);
         },
         async fetchTotal() {
@@ -130,7 +112,7 @@ export default {
         },
         replyBtn(index, row, parent_index = -1) {
             this.reply_to = `@${row.name}`;
-            this.showTopReply = false;
+            this.show_to_reply = false;
             this.list.forEach((el) => {
                 el.childs.forEach((e) => {
                     e.reply = false;
@@ -140,10 +122,42 @@ export default {
                 return el;
             });
             row.reply = true;
+            if (parent_index > -1) {
+                this.list[parent_index].childs[index] = row;
+            } else {
+                this.$set(this.list, index, row);
+            }
         },
         cancelBtn() {
             this.reply_to = '';
-            this.showTopReply = true;
+            this.show_to_reply = true;
+        },
+        format(res, page) {
+            if (!res.length) {
+                return;
+            }
+            res.forEach((el) => {
+                el.reply = false;
+                el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
+                return el;
+            });
+            this.last_id[page + 1] = res[res.length - 1].id;
+            let del_ids = [];
+            this.list = [];
+            this.list = res.map((el) => {
+                el.childs = res.filter((e) => {
+                    if (e.pid === el.id) {
+                        del_ids.push(e.id);
+                        return true;
+                    }
+                    return false;
+                });
+                return el;
+            }).filter((el) => {
+                return !del_ids.find((e) => {
+                    return e === el.id;
+                });
+            });
         },
     },
     mounted() {
