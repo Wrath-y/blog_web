@@ -28,7 +28,7 @@ export default {
 
 <style>
 body {
-    font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
+    font-family: 'Source Sans Pro', sans-serif;
     color: #404040;
     font-size: 15px;
     line-height: 1.5;
