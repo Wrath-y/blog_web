@@ -167,10 +167,10 @@ export default {
             .post-image {
                 display: inline-block;
                 width: 429px;
-                height: 300;
                 overflow: hidden;
                 img {
                     width: 429px;
+                    height: 300px;
                 }
             }
             .post-con {
