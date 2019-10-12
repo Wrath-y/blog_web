@@ -8,19 +8,18 @@
 </template>
 
 <script>
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github.css';
-
-const highlightCode = () => {
-    const preEl = document.querySelectorAll('pre')
-
-    preEl.forEach((el) => {
-      hljs.highlightBlock(el)
-    })
-}
+import '@/assets/css/lines.css';
+import '@/assets/css/customemin.css';
 
 export default {
     transition: 'page',
+    head: {
+        script: [
+            { src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js' }
+        ],
+        link: [
+        ]
+    },
     components: {
     },
     data() {
@@ -42,9 +41,6 @@ export default {
     },
     mounted() {
         this.fetchData();
-    },
-    updated () {
-        highlightCode()
     }
 };
 </script>

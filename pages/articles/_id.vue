@@ -28,7 +28,7 @@
 <script>
 import '@/assets/css/lines.css';
 import '@/assets/css/customemin.css';
-
+import axios from 'axios'
 import Comment from '@/components/pages/Comment';
 
 export default {
@@ -39,30 +39,33 @@ export default {
         link: [
         ]
     },
-    transition: 'page',
     components: {
         Comment,
     },
     data() {
         return {
             loading: false,
-            form: {},
-    };
+            form: {}
+        };
     },
-    computed: {},
-    watch: {},
-    methods: {
-        async fetchData() {
-            this.loading = true;
-            await this.$axios.$get(`articles/${this.$route.params.id}`).then((res) => {
-                this.form = res;
-            }).finally(() => this.loading = false);
-        },
-
+    async asyncData (context) {
+        let { data } = await axios.get(`https://wrath.cc/java/articles/${context.route.params.id}`);
+        return { form: data, loading: false }
     },
-    mounted() {
-        this.fetchData();
-    }
+    // computed: {},
+    // watch: {},
+    // methods: {
+    //     async fetchData() {
+    //         this.loading = true;
+    //         await this.$axios.$get(`articles/${this.$route.params.id}`).then((res) => {
+    //             this.form = res;
+    //             this.message = this.form.html;
+    //         }).finally(() => this.loading = false);
+    //     },
+    // },
+    // mounted() {
+    //     this.fetchData();
+    // }
 };
 </script>
 

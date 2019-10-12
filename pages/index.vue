@@ -54,6 +54,7 @@
 
 <script>
 import {Table, TableColumn} from 'element-ui';
+import axios from 'axios'
 
 export default {
     transition: 'page',
