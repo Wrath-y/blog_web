@@ -65,20 +65,23 @@ export default {
         return {
             form: {},
             list: [],
-            lastId: 0,
             loading: false,
 		};
     },
     methods: {
         async fetchList() {
-            if (this.lastId) {
-                this.form.lastId = this.lastId;
+            if (this.list.length) {
+                this.form.lastId = this.list[this.list.length - 1]['id'];
             }
             let params = this.form;
             await this.$axios.$get('articles', {params}).then((res) => {
                 if (res) {
+                    res.map((i) => {
+                        this.list = this.list.filter((j) => {
+                            return i.id != j.id;
+                        });
+                    });
                     this.list = this.list.concat(res);
-                    this.lastId = this.list[this.list.length - 1]['id'];
                 }
             });
         },

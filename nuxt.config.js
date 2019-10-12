@@ -1,4 +1,5 @@
 const pkg = require('./package')
+const axios = require('axios')
 
 module.exports = {
   mode: 'universal',
@@ -74,11 +75,12 @@ module.exports = {
   },
   generate: {
     routes: function() {
-      let arr = [];
-      for (let i = 1; i < 100; i++) {
-        arr.push('/articles/' + i);
-      }
-      return arr;
+      return axios.get('https://wrath.cc/java/articles')
+      .then((res) => {
+        return res.data.map((article) => {
+          return '/articles/' + article.id
+        })
+      })
     }
   }
 }
