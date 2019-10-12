@@ -38,6 +38,7 @@ module.exports = {
     { src: '~plugins/axios', ssr: true },
     { src: '~plugins/lazy-loading', ssr: true },
     { src: '~plugins/waterfall', ssr: false },
+    { src: '~plugins/baidu-spider', ssr: false },
   ],
 
   /*
