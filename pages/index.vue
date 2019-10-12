@@ -66,6 +66,7 @@ export default {
         return {
             form: {},
             list: [],
+            page: 0,
             loading: false,
 		};
     },
@@ -102,8 +103,9 @@ export default {
             return trueDate;
         },
         scrolls() {
-            if ((document.documentElement.scrollTop/1500)%1 === 0) {
+            if (parseInt(document.documentElement.scrollTop/1500) > this.page) {
                 this.fetchList();
+                this.page = this.page + 1;
             }
         },
         chooseTag(tag) {
@@ -118,7 +120,7 @@ export default {
         this.fetchList();
     },
     mounted() {
-        window.addEventListener('scroll', this.scrolls)
+        window.addEventListener('scroll', this.scrolls, true)
     },
 }
 </script>
