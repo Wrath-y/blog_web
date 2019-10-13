@@ -1,52 +1,54 @@
 <template>
     <div>
-        <div class="headertop trans filter-dot">
-            <div class="header-bg-post">
+        <div style="position: fixed; width: 100%; z-index: -1">
+            <div class="headertop trans filter-dot">
                 <img class="header-bg-img" src="https://ysama.oss-cn-hongkong.aliyuncs.com/header.png" />
             </div>
         </div>
         <div class="list" v-loading="loading">
-            <div class="main-content">
-                <el-card v-for="(item, index) in list" :key="index" class="post-card">
-                    <div class="post-image" :class="{'float-right': index % 2 !== 0}">
-                        <img :src="item.image" />
-                    </div>
-                    <div class="post-con" :class="{'float-right': index % 2 == 0}">
-                        <div class="post-date" :class="{'text-right': index % 2 == 0}">
-                            <i class="el-icon-time"></i>
-                            {{getNowFormatDate(item.createdAt)}}
+            <div class="content-box">
+                <div class="main-content">
+                    <el-card v-for="(item, index) in list" :key="index" class="post-card">
+                        <div class="post-image" :class="{'float-right': index % 2 !== 0}">
+                            <img :src="item.image" />
                         </div>
-                        <nuxt-link :to="`/articles/${item.id}`">
-                            <a href="#">
-                                <h3>{{item.title}}</h3>
-                            </a>
-                        </nuxt-link>
-                        <div class="post-meta" :class="{'text-right': index % 2 == 0}">
-                            <span>
-                                <i class="el-icon-view"></i>
-                                {{item.hits}}热度
-                            </span>
-                            <span style="margin: 0 10px">
-                                <i class="el-icon-edit"></i>
-                                {{item.commentCount || 0}}条评论
-                            </span>
-                            <span class="tags" @click="chooseTag(item.tags)">
-                                <i class="el-icon-document"></i>
-                                {{item.tags}}
-                            </span>
-                        </div>
-                        <div class="post-intro">
-                            <p>{{item.con}}</p>
-                        </div>
-                        <div class="post-bottom" :class="{'text-right': index % 2 == 0}">
+                        <div class="post-con" :class="{'float-right': index % 2 == 0}">
+                            <div class="post-date" :class="{'text-right': index % 2 == 0}">
+                                <i class="el-icon-time"></i>
+                                {{getNowFormatDate(item.createdAt)}}
+                            </div>
                             <nuxt-link :to="`/articles/${item.id}`">
                                 <a href="#">
-                                    <i class="el-icon-more"></i>
+                                    <h3>{{item.title}}</h3>
                                 </a>
                             </nuxt-link>
+                            <div class="post-meta" :class="{'text-right': index % 2 == 0}">
+                                <span>
+                                    <i class="el-icon-view"></i>
+                                    {{item.hits}}热度
+                                </span>
+                                <span style="margin: 0 10px">
+                                    <i class="el-icon-edit"></i>
+                                    {{item.commentCount || 0}}条评论
+                                </span>
+                                <span class="tags" @click="chooseTag(item.tags)">
+                                    <i class="el-icon-document"></i>
+                                    {{item.tags}}
+                                </span>
+                            </div>
+                            <div class="post-intro">
+                                <p>{{item.con}}</p>
+                            </div>
+                            <div class="post-bottom" :class="{'text-right': index % 2 == 0}">
+                                <nuxt-link :to="`/articles/${item.id}`">
+                                    <a href="#">
+                                        <i class="el-icon-more"></i>
+                                    </a>
+                                </nuxt-link>
+                            </div>
                         </div>
-                    </div>
-                </el-card>
+                    </el-card>
+                </div>
             </div>
         </div>
     </div>
@@ -130,9 +132,9 @@ export default {
     background-image: url('https://blog-ico.oss-cn-shanghai.aliyuncs.com/dot.gif')
 }
 .headertop {
-    max-height: 938px;
     position: relative;
     overflow: hidden;
+    height: 71vh;
 }
 .headertop::before {
     content: '';
@@ -143,10 +145,6 @@ export default {
     right: 0;
     z-index: 3;
     background-attachment: fixed;
-}
-.header-bg-post {
-    max-height: 938px;
-    overflow: hidden;
 }
 .header-bg-img {
     width: 100%;
@@ -161,8 +159,14 @@ export default {
     animation-play-state: running;
 }
 .list {
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    z-index: 9;
+    padding-top: 71vh;
+    .content-box{
+        display: flex;
+        justify-content: center;
+        background: #fff;
+    }
     .main-content {
         .post-card {
             width: 780px;
