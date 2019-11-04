@@ -52,20 +52,6 @@ export default {
         let { data } = await axios.get(`https://wrath.cc/java/articles/${context.route.params.id}`);
         return { form: data, loading: false }
     },
-    // computed: {},
-    // watch: {},
-    // methods: {
-    //     async fetchData() {
-    //         this.loading = true;
-    //         await this.$axios.$get(`articles/${this.$route.params.id}`).then((res) => {
-    //             this.form = res;
-    //             this.message = this.form.html;
-    //         }).finally(() => this.loading = false);
-    //     },
-    // },
-    // mounted() {
-    //     this.fetchData();
-    // }
 };
 </script>
 
