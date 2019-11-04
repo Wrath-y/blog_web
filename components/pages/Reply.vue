@@ -46,12 +46,15 @@ export default {
             this.loading = true;
             if (!this.form.name) {
                 this.$message.error('昵称必填哦~');
+                return;
             }
             if (!this.form.email) {
                 this.$message.error('邮箱必填哦~');
+                return;
             }
             if (!this.form.content) {
                 this.$message.error('你难道没什么想说的吗~');
+                return;
             }
             this.$axios.post('comments', this.form).then((res) => {
                 this.$message.success('发送成功');
