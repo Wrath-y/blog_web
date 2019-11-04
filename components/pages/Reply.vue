@@ -57,7 +57,7 @@ export default {
                 return;
             }
             this.$axios.post('comments', this.form).then((res) => {
-                this.$message.success('发送成功');
+                // this.$message.success('发送成功');
             }).finally(() => {
                 this.loading = false;
 				this.$emit('cancel')

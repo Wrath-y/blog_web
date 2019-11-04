@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="content">
-                            <vue-markdown>{{row.content}}</vue-markdown>
+                            <vue-markdown :source="row.content"></vue-markdown>
                         </div>
                         <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" :article_id="id" @cancel="cancelBtn" @refresh="fetchComment" />
                     </div>
@@ -141,7 +141,7 @@ export default {
                 el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
                 return el;
             });
-            this.last_id[page + 1] = res[res.length - 1].id;
+            this.last_id[page] = res[res.length - 1].id;
             let del_ids = [];
             this.list = [];
             this.list = res.map((el) => {
