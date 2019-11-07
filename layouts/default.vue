@@ -11,11 +11,11 @@ import Navigator from '@/components/layout/Navigator';
 export default {
     head: {
         script: [
-            { src: 'http://live2d-wrath.oss-cn-shanghai.aliyuncs.com/jquery.min.js' },
-            { src: 'http://live2d-wrath.oss-cn-shanghai.aliyuncs.com/autoload.js' }
+            { src: 'https://live2d-wrath.oss-cn-shanghai.aliyuncs.com/jquery.min.js' },
+            { src: 'https://live2d-wrath.oss-cn-shanghai.aliyuncs.com/autoload.js' }
         ],
         link: [
-            { rel: 'stylesheet', href: 'http://live2d-wrath.oss-cn-shanghai.aliyuncs.com/font-awesome.min.css' }
+            { rel: 'stylesheet', href: 'https://live2d-wrath.oss-cn-shanghai.aliyuncs.com/font-awesome.min.css' }
         ]
     },
     components: {
