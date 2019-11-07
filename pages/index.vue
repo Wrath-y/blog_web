@@ -18,16 +18,16 @@
                                 {{getNowFormatDate(item.createdAt)}}
                             </div>
                             <nuxt-link :to="`/articles/${item.id}`">
-                                <a href="#">
+                                <a href="#" class="article-tit">
                                     <h3>{{item.title}}</h3>
                                 </a>
                             </nuxt-link>
                             <div class="post-meta" :class="{'text-right': index % 2 == 0}">
-                                <span>
+                                <span class="hits">
                                     <i class="el-icon-view"></i>
                                     {{item.hits}}热度
                                 </span>
-                                <span style="margin: 0 10px">
+                                <span class="comments" style="margin: 0 10px">
                                     <i class="el-icon-edit"></i>
                                     {{item.commentCount || 0}}条评论
                                 </span>
@@ -41,7 +41,7 @@
                             </div>
                             <div class="post-bottom" :class="{'text-right': index % 2 == 0}">
                                 <nuxt-link :to="`/articles/${item.id}`">
-                                    <a href="#">
+                                    <a href="#" class="article-more">
                                         <i class="el-icon-more"></i>
                                     </a>
                                 </nuxt-link>

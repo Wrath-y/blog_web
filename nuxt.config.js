@@ -15,8 +15,9 @@ module.exports = {
       { charset: 'utf-8' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
+    script: [],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
 
