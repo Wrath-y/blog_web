@@ -15,7 +15,6 @@ import Viewer from 'viewerjs';
 import 'viewerjs/dist/viewer.css';
 
 export default {
-    transition: 'page',
     components: {},
     data() {
         return {
@@ -33,7 +32,7 @@ export default {
             await this.$axios.get('https://wrath.cc/go/pixivs?' + this.toQuery(this.form)).then((res) => {
                 if (res) {
                     this.list = this.list.concat(res.Data.Objects.map((i) => {
-                        i.Key = 'https://gilgamesh.oss-cn-hongkong.aliyuncs.com/' + this.encodeUrl(i.Key);
+                        i.Key = 'https://wrath-pixiv.oss-cn-shanghai.aliyuncs.com/' + this.encodeUrl(i.Key);
                         return i;
                     }));
                     this.form.next_marker = res.Data.NextMarker
