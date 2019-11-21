@@ -13,7 +13,7 @@
                 v-model="form.content" />
         </div>
         <div class="buttom-btn">
-            <el-button class="submit-btn" @click="submit">点击就送...</el-button>
+            <el-button class="submit-btn" @click="submit">COMMIT</el-button>
             <el-button v-if="this.pid" class="cancel-btn" @click="$emit('cancel')">CANCEL</el-button>
         </div>
     </div>

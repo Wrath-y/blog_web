@@ -23,7 +23,7 @@
                         <div class="content">
                             <vue-markdown :source="row.content"></vue-markdown>
                         </div>
-                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" :article_id="id" @cancel="cancelBtn" @refresh="fetchComment" />
+                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" :article_id="id" @cancel="cancelBtn($index)" @refresh="fetchComment" />
                     </div>
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
@@ -44,7 +44,7 @@
                             <div class="content">
                                 <vue-markdown>{{item.content}}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn" @refresh="fetchComment" />
+                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn($index,index)" @refresh="fetchComment" />
                         </div>
                     </div>
                 </template>
@@ -128,7 +128,12 @@ export default {
                 this.$set(this.list, index, row);
             }
         },
-        cancelBtn() {
+        cancelBtn(i, j = -1) {
+            if (j < 0) {
+                this.list[i].reply = false;
+            } else {
+                this.list[i].childs[j].reply = false;
+            }
             this.reply_to = '';
             this.show_to_reply = true;
         },
