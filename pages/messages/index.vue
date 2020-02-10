@@ -12,7 +12,7 @@
 import '@/assets/css/lines.css';
 import '@/assets/css/customemin.css';
 
-import Comment from '@/components/pages/Comment';
+import Comment from '@/components/pages/articles/Comment';
 
 export default {
     transition: 'page',

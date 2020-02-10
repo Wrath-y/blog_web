@@ -29,7 +29,7 @@
 import '@/assets/css/lines.css';
 import '@/assets/css/customemin.css';
 import axios from 'axios'
-import Comment from '@/components/pages/Comment';
+import Comment from '@/components/pages/articles/Comment';
 
 export default {
     head: {

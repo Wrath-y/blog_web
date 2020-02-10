@@ -62,7 +62,7 @@
 
 <script>
 import {Table, TableColumn, Pagination} from 'element-ui';
-import Reply from '@/components/pages/Reply';
+import Reply from '@/components/pages/articles/Reply';
 import VueMarkdown from 'vue-markdown';
 import md5 from 'md5';
 
