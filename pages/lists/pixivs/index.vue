@@ -29,6 +29,7 @@ export default {
     },
     methods: {
         async fetchList() {
+            console.log(1);
             await this.$axios.get('https://wrath.cc/go/pixivs?' + this.toQuery(this.form)).then((res) => {
                 if (res) {
                     this.list = this.list.concat(res.Data.Objects.map((i) => {
@@ -58,7 +59,7 @@ export default {
             });
         },
         encodeUrl(str) {
-            str = encodeURI(str);
+            str = encodeURIComponent(str);
             str = str.replace(/\+/g, '%2B');
             return str;
         },
