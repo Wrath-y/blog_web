@@ -222,3 +222,11 @@ pre .content{
 .code-block-fullscreen-html-scroll {
     overflow:hidden
 }
+table td, table th {
+    border: 1px solid #EBEEF5;
+}
+.el-table td, .el-table th.is-leaf {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
