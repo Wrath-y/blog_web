@@ -19,7 +19,7 @@
                     </span>
                 </div>
             </div>
-            <div v-html="form.html"></div>
+            <div class='markdown-body' v-html="form.html"></div>
         </el-card>
         <Comment />
     </div>
@@ -37,6 +37,7 @@ export default {
             { src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js' }
         ],
         link: [
+            { rel: "stylesheet", href: "https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" }
         ]
     },
     components: {
