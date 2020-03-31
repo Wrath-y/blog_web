@@ -1,4 +1,4 @@
-pre:before {
+.wrap .markdown-body pre:before {
 	content:" ";
 	position:absolute;
 	-webkit-border-radius:50%;
@@ -12,7 +12,7 @@ pre:before {
 	box-shadow:20px 0 #fdbc40,40px 0 #35cd4b;
 	z-index:2
 }
-pre {
+.wrap .markdown-body pre {
 	background:#21252b;
 	border-radius:5px;
 	font:15px/22px'Source Sans Pro', sans-serif;
@@ -25,22 +25,22 @@ pre {
     padding-left: 10px;
     padding-bottom: 10px;
 }
-pre code::-webkit-scrollbar {
+.wrap .markdown-body pre code::-webkit-scrollbar {
     height:10x !important;
     width:10x !important;
     background-color:#1d1f21 !important
 }
-pre code::-webkit-scrollbar-track {
+.wrap .markdown-body pre code::-webkit-scrollbar-track {
     -webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, .3) !important;
     border-radius:10px !important;
     background-color:#21252b !important
 }
-pre code::-webkit-scrollbar-thumb {
+.wrap .markdown-body pre code::-webkit-scrollbar-thumb {
     border-radius:10px !important;
     -webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, .5) !important;
     background-color:#21252b !important
 }
-pre code {
+.wrap .markdown-body pre code {
     color:#fff;
     word-break:break-word;
     font-family:'Source Sans Pro', sans-serif;
@@ -51,7 +51,7 @@ pre code {
     /*max-height: calc(100vh - 250px);*/
     overflow-y: scroll;
 }
-pre code[data-rel]:before {
+.wrap .markdown-body pre code[data-rel]:before {
     color:#fff;
     content:attr(data-rel);
     height:38px;
@@ -76,15 +76,15 @@ pre code[data-rel]:before {
     border-bottom-left-radius:0;
     pointer-events:none
 }
-.hljs-ln-line span::-moz-selection,.hljs-ln-line::-moz-selection {
+.wrap .markdown-body .hljs-ln-line span::-moz-selection,.hljs-ln-line::-moz-selection {
 	background:#fff;
 	color:#21252b
 }
-.hljs-ln-line span::selection,.hljs-ln-line::selection {
+.wrap .markdown-body .hljs-ln-line span::selection,.hljs-ln-line::selection {
 	background:#fff;
 	color:#21252b
 }
-.hljs {
+.wrap .markdown-body .hljs {
 	display:block;
 	overflow-x:auto;
 	padding:.5em;
@@ -92,59 +92,59 @@ pre code[data-rel]:before {
 	background:#282c34;
     max-height: 600px;
 }
-::-webkit-scrollbar {
+.wrap .markdown-body ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
-::-webkit-scrollbar-track {
+.wrap .markdown-body ::-webkit-scrollbar-track {
     border-radius: 3px;
     background: #fff;
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.08);
 }
-/* 滚动条滑块 */
+.wrap .markdown-body /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
     border-radius: 3px;
     background: #fff;
     -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
-.hljs-comment,.hljs-quote {
+.wrap .markdown-body .hljs-comment,.hljs-quote {
 	color:#5c6370;
 	font-style:italic
 }
-.hljs-doctag,.hljs-formula,.hljs-keyword {
+.wrap .markdown-body .hljs-doctag,.hljs-formula,.hljs-keyword {
 	color:#c678dd
 }
-.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst {
+.wrap .markdown-body .hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst {
 	color:#e06c75
 }
-.hljs-literal {
+.wrap .markdown-body .hljs-literal {
 	color:#56b6c2
 }
-.hljs-addition,.hljs-attribute,.hljs-meta-string,.hljs-regexp,.hljs-string {
+.wrap .markdown-body .hljs-addition,.hljs-attribute,.hljs-meta-string,.hljs-regexp,.hljs-string {
 	color:#98c379
 }
-.hljs-built_in,.hljs-class .hljs-title {
+.wrap .markdown-body .hljs-built_in,.hljs-class .hljs-title {
 	color:#e6c07b
 }
-.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable {
+.wrap .markdown-body .hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable {
 	color:#d19a66
 }
-.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title {
+.wrap .markdown-body .hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title {
 	color:#61aeee
 }
-.hljs-emphasis {
+.wrap .markdown-body .hljs-emphasis {
 	font-style:italic
 }
-.hljs-strong {
+.wrap .markdown-body .hljs-strong {
 	font-weight:700
 }
-.hljs-link {
+.wrap .markdown-body .hljs-link {
 	text-decoration:underline
 }
-.hljs-ln {
+.wrap .markdown-body .hljs-ln {
     margin:6px 0 0 0 !important
 }
-td.hljs-ln-numbers {
+.wrap .markdown-body td.hljs-ln-numbers {
     display: none;
     -webkit-touch-callout:none;
     -webkit-user-select:none;
@@ -161,14 +161,13 @@ td.hljs-ln-numbers {
     left:0;
     width:30px
 }
-.hljs-ln-code .hljs-ln-line {
+.wrap .markdown-body .hljs-ln-code .hljs-ln-line {
     margin-left:25px;
     padding-left:5px
 }
-.hljs-ln-code .hljs-ln-line:hover {
+.wrap .markdown-body .hljs-ln-code .hljs-ln-line:hover {
     background-color:rgba(255, 255, 255, .1)
 }
-
 @keyframes elastic {
     0% {
         transform:scale(0)
@@ -183,20 +182,20 @@ td.hljs-ln-numbers {
         transform:scale(1)
     }
 }
-
+.wrap .markdown-body 
 .hljs-emphasis {
   font-style: italic;
 }
-
+.wrap .markdown-body 
 .hljs-strong {
   font-weight: bold;
 }
-pre .content{
+.wrap .markdown-body pre .content{
     width: 40%;
     margin: 5rem auto;
     position: relative;
 }
-#post-content .code-block-fullscreen{
+.wrap .markdown-body #post-content .code-block-fullscreen{
     padding-top: 32px;
     position:fixed;
     width: 80vw;
@@ -211,7 +210,7 @@ pre .content{
     animation:elastic 1s;
     overflow: hidden;
 }
-.code-block-fullscreen code {
+.wrap .markdown-body .code-block-fullscreen code {
     --widthA:100%;
     --widthB:calc(var(--widthA) - 30px);
     height:var(--widthB);
@@ -219,6 +218,6 @@ pre .content{
     overflow-y:scroll;
     height:100%;
 }
-.code-block-fullscreen-html-scroll {
+.wrap .markdown-body .code-block-fullscreen-html-scroll {
     overflow:hidden
 }
