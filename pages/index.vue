@@ -18,9 +18,7 @@
                                 {{getNowFormatDate(item.createdAt)}}
                             </div>
                             <nuxt-link :to="`/articles/${item.id}`">
-                                <a href="#" class="article-tit">
-                                    <h3>{{item.title}}</h3>
-                                </a>
+                                <h3>{{item.title}}</h3>
                             </nuxt-link>
                             <div class="post-meta" :class="{'text-right': index % 2 == 0}">
                                 <span class="hits">
@@ -41,9 +39,7 @@
                             </div>
                             <div class="post-bottom" :class="{'text-right': index % 2 == 0}">
                                 <nuxt-link :to="`/articles/${item.id}`">
-                                    <a href="#" class="article-more">
-                                        <i class="el-icon-more"></i>
-                                    </a>
+                                    <i class="el-icon-more"></i>
                                 </nuxt-link>
                             </div>
                         </div>
@@ -219,7 +215,7 @@ export default {
                         height: 87.5px;
                     }
                     p::after {
-                        content:"...";
+                        content:".";
                         font-weight:bold;
                         position:absolute;
                         bottom:0;
