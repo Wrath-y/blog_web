@@ -34,13 +34,13 @@ export default {
                 email: '',
                 url: '',
                 content: this.reply_to ? this.reply_to + '  ' : '',
-                article_id: Number(this.$route.params.id) > 0 ? Number(this.$route.params.id) : this.article_id,
+                article_id: Number(this.$route.params.id),
                 pid: this.pid || 0,
                 ppid: this.ppid || 0
             },
 		};
     },
-    props: ['reply_to', 'pid', 'ppid', 'article_id'],
+    props: ['reply_to', 'pid', 'ppid'],
     methods: {
         submit() {
             this.loading = true;

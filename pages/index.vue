@@ -15,7 +15,7 @@
                         <div class="post-con" :class="{'float-right': index % 2 == 0}">
                             <div class="post-date" :class="{'text-right': index % 2 == 0}">
                                 <i class="el-icon-time"></i>
-                                {{getNowFormatDate(item.createdAt)}}
+                                {{getNowFormatDate(item.created_at)}}
                             </div>
                             <nuxt-link :to="`/articles/${item.id}`">
                                 <h3>{{item.title}}</h3>
@@ -27,7 +27,7 @@
                                 </span>
                                 <span class="comments" style="margin: 0 10px">
                                     <i class="el-icon-edit"></i>
-                                    {{item.commentCount || 0}}条评论
+                                    {{item.comment_count || 0}}条评论
                                 </span>
                                 <span class="tags" @click="chooseTag(item.tags)">
                                     <i class="el-icon-document"></i>
@@ -52,10 +52,8 @@
 
 <script>
 import {Table, TableColumn} from 'element-ui';
-import axios from 'axios'
 
 export default {
-    transition: 'page',
     components: {
         [Table.name]: Table,
         [TableColumn.name]: TableColumn,
@@ -71,17 +69,17 @@ export default {
     methods: {
         async fetchList() {
             if (this.list.length) {
-                this.form.lastId = this.list[this.list.length - 1]['id'];
+                this.form.last_id = this.list[this.list.length - 1]['id'];
             }
             let params = this.form;
             await this.$axios.$get('articles', {params}).then((res) => {
                 if (res) {
-                    res.map((i) => {
+                    res.data.map((i) => {
                         this.list = this.list.filter((j) => {
                             return i.id != j.id;
                         });
                     });
-                    this.list = this.list.concat(res);
+                    this.list = this.list.concat(res.data);
                 }
             });
         },
@@ -109,7 +107,7 @@ export default {
         chooseTag(tag) {
             this.list = [];
             this.form = {};
-            this.lastId = 0;
+            this.last_id = 0;
             this.form.tag = tag;
             this.fetchList();
         }

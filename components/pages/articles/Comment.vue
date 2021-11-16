@@ -1,7 +1,7 @@
 <template>
     <el-card class="comment">
         <h3>Comments</h3>
-        <Reply v-if="this.show_to_reply" @refresh="fetchComment" :article_id="id" />
+        <Reply v-if="this.show_to_reply" @refresh="fetchComment" />
         <el-table :data="list" v-loading="loading">
             <el-table-column>
                 <template slot-scope="{$index, row}">
@@ -16,14 +16,14 @@
                                 </a>
                             </div>
                             <div>
-                                <span class="time">{{row.createdAt}}</span>
+                                <span class="time">{{row.created_at}}</span>
                                 <el-button class="reply-btn" type="text" @click="replyBtn($index, row)">REPLY</el-button>
                             </div>
                         </div>
                         <div class="content">
                             <vue-markdown :source="row.content"></vue-markdown>
                         </div>
-                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" :article_id="id" @cancel="cancelBtn($index)" @refresh="fetchComment" />
+                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" @cancel="cancelBtn($index)" @refresh="fetchComment" />
                     </div>
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
@@ -37,14 +37,14 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <span class="time">{{item.createdAt}}</span>
+                                    <span class="time">{{item.created_at}}</span>
                                     <el-button class="reply-btn" type="text" @click="replyBtn(index, item, $index)">REPLY</el-button>
                                 </div>
                             </div>
                             <div class="content">
                                 <vue-markdown>{{item.content}}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" :article_id="id" @cancel="cancelBtn($index,index)" @refresh="fetchComment" />
+                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" @cancel="cancelBtn($index,index)" @refresh="fetchComment" />
                         </div>
                     </div>
                 </template>
@@ -91,10 +91,10 @@ export default {
     props: ["id"],
     methods: {
         async fetchComment(page = 1) {
-            this.fetchTotal();
             if (!this.$route.params.id > 0) {
                 this.$route.params.id = this.id;
             }
+            this.fetchTotal();
             let url = page > 1 ? `comments?article_id=${this.$route.params.id}&last_id=${this.last_id[page]}` : `comments?article_id=${this.$route.params.id}`;
             this.loading = true;
             await this.$axios.$get(url).then((res) => {
@@ -107,7 +107,7 @@ export default {
             }
             this.loading = true;
             await this.$axios.$get(`comments/count?article_id=${this.$route.params.id}`).then((res) => {
-                this.pagination.total = res;
+                this.pagination.total = res.data;
             }).finally(() => this.loading = false);
         },
         replyBtn(index, row, parent_index = -1) {
@@ -138,19 +138,19 @@ export default {
             this.show_to_reply = true;
         },
         format(res, page) {
-            if (!res.length) {
+            if (!res.data.length) {
                 return;
             }
-            res.forEach((el) => {
+            res.data.forEach((el) => {
                 el.reply = false;
                 el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
                 return el;
             });
-            this.last_id[page] = res[res.length - 1].id;
+            this.last_id[page] = res.data[res.data.length - 1].id;
             let del_ids = [];
             this.list = [];
-            this.list = res.map((el) => {
-                el.childs = res.filter((e) => {
+            this.list = res.data.map((el) => {
+                el.childs = res.data.filter((e) => {
                     if (e.pid === el.id) {
                         del_ids.push(e.id);
                         return true;

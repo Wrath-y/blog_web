@@ -34,7 +34,7 @@ export default {
         async fetchData() {
             this.loading = true;
             await this.$axios.$get(`articles/2`).then((res) => {
-                this.form = res;
+                this.form = res.data;
             }).finally(() => this.loading = false);
         },
 

@@ -55,7 +55,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'https://wrath.cc/java/',
+    baseURL: 'https://wrath.cc/go/',
   },
 
   /*
@@ -81,7 +81,7 @@ module.exports = {
   },
   generate: {
     routes: function() {
-      return axios.get('https://wrath.cc/java/articles')
+      return axios.get('https://wrath.cc/go/articles')
       .then((res) => {
         return res.data.map((article) => {
           return '/articles/' + article.id

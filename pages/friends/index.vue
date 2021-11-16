@@ -26,11 +26,10 @@ export default {
     methods: {
         fetchList() {
             this.loading = true;
-            this.$axios.$get('harems').then((res) => {
-                if (res) {
-                    this.list = res.map((el) => {
+            this.$axios.$get('friends').then((res) => {
+                if (res.data) {
+                    this.list = res.data.map((el) => {
 						el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
-
 						return el;
 					});
                 }
@@ -57,7 +56,7 @@ export default {
             width: 100%;
             .item {
                 display: inline-block;
-                width: 25%;
+                width: 33%;
                 margin-bottom: 25px;
                 img {
                     float: left;

@@ -11,7 +11,7 @@
                     </span>
                     <span style="margin: 0 10px">
                         <i class="el-icon-edit"></i>
-                        {{form.commentCount || 0}}条评论
+                        {{form.comment_count || 0}}条评论
                     </span>
                     <span class="tags">
                         <i class="el-icon-document"></i>
@@ -28,7 +28,6 @@
 <script>
 import '@/assets/css/lines.css';
 import '@/assets/css/customemin.css';
-import axios from 'axios'
 import Comment from '@/components/pages/articles/Comment';
 
 export default {
@@ -49,9 +48,18 @@ export default {
             form: {}
         };
     },
-    async asyncData (context) {
-        let { data } = await axios.get(`https://wrath.cc/java/articles/${context.route.params.id}`);
-        return { form: data, loading: false }
+    methods: {
+        async asyncData () {
+            await this.$axios.$get(`articles/${this.$route.params.id}`).then((res) => {
+                if (res) {
+                    this.form = res.data
+                }
+            });
+            this.loading = false
+        },
+    },
+    created() {
+        this.asyncData();
     },
 };
 </script>
