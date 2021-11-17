@@ -31,6 +31,7 @@ import '@/assets/css/customemin.css';
 import Comment from '@/components/pages/articles/Comment';
 
 export default {
+    transition: 'page',
     head: {
         script: [
             { src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js' }
@@ -51,9 +52,7 @@ export default {
     methods: {
         async asyncData () {
             await this.$axios.$get(`articles/${this.$route.params.id}`).then((res) => {
-                if (res) {
-                    this.form = res.data
-                }
+                this.form = res.data
             });
             this.loading = false
         },

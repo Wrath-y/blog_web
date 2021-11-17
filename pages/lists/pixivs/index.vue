@@ -32,11 +32,11 @@ export default {
             console.log(1);
             await this.$axios.get('https://wrath.cc/go/pixivs?' + this.toQuery(this.form)).then((res) => {
                 if (res) {
-                    this.list = this.list.concat(res.Data.Objects.map((i) => {
+                    this.list = this.list.concat(res.data.Objects.map((i) => {
                         i.Key = 'https://wrath-pixiv.oss-cn-shanghai.aliyuncs.com/' + this.encodeUrl(i.Key);
                         return i;
                     }));
-                    this.form.next_marker = res.Data.NextMarker
+                    this.form.next_marker = res.data.NextMarker
                 }
             });
             if (this.view) {

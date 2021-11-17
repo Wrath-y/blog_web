@@ -16,6 +16,7 @@
 import md5 from 'md5';
 
 export default {
+    transition: 'page',
     components: {},
     data() {
         return {

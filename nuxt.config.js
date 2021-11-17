@@ -83,7 +83,7 @@ module.exports = {
     routes: function() {
       return axios.get('https://wrath.cc/go/articles')
       .then((res) => {
-        return res.data.map((article) => {
+        return res.data.data.map((article) => {
           return '/articles/' + article.id
         })
       })
