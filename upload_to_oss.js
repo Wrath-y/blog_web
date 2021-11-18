@@ -37,8 +37,8 @@ function addFileToOSSSync(src, dist) {
  */
 async function putOSS(src, dist) {
   try {
-    await client.put("/"+dist, src);
-    console.log(src + "/" + dist + "上传oss成功");
+    await client.put(dist, src);
+    console.log(src + dist + "上传oss成功");
   } catch (e) {
     console.log("上传失败".e);
   }
