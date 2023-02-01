@@ -85,18 +85,13 @@ export default {
         },
         getNowFormatDate(timetsamp) {
             const date = new Date(timetsamp);
-            let month = date.getMonth() + 1;
-            let strDate = date.getDate();
-            if (month >= 1 && month <= 9) {
-                month = '0' + month;
-            }
-            if (strDate >= 0 && strDate <= 9) {
-                strDate = '0' + strDate;
-            }
-            const trueDate = date.getFullYear() + '年' + month + '月' + strDate
-                    + '日 ' + date.getHours() + ':' + date.getMinutes()
-                    + ':' + date.getSeconds();
-            return trueDate;
+            const year = date.getFullYear()
+            const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth()
+            const day = date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate()
+            const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+            const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+            const second = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+            return `${year}-${month}-${day} ${hour}:${minute}:${second}`
         },
         scrolls() {
             if (parseInt(document.documentElement.scrollTop/1500) > this.page) {

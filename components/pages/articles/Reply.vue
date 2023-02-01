@@ -1,8 +1,8 @@
 <template>
     <div class="reply">
         <div class="user-info">
-            <el-input v-model="form.name" placeholder="昵称(必须✔️)" />
-            <el-input style="margin: 0 10px" v-model="form.email" placeholder="邮箱(必须✔️)" />
+            <el-input v-model="form.name" placeholder="昵称(选填)" />
+            <el-input style="margin: 0 10px" v-model="form.email" placeholder="邮箱(选填,用于获取gravatar头像)" />
             <el-input v-model="form.url" placeholder="网站(选填)" />
         </div>
         <div class="content">
@@ -57,7 +57,7 @@ export default {
                 return;
             }
             this.$axios.post('comments', this.form).then((res) => {
-                // this.$message.success('发送成功');
+                this.$message.success('提交成功');
             }).finally(() => {
                 this.loading = false;
 				this.$emit('cancel')

@@ -7,64 +7,65 @@
                 <template slot-scope="{$index, row}">
                     <div class="comment">
                         <div class="img">
-                            <img :src="row.image" />
+                            <img :src="row.avatar" />
                         </div>
                         <div class="info">
                             <div class="name">
                                 <a :href="row.url" target="_blank">
-                                    {{row.name}}
+                                    {{ row.name }}
                                 </a>
                             </div>
                             <div>
-                                <span class="time">{{row.created_at}}</span>
-                                <el-button class="reply-btn" type="text" @click="replyBtn($index, row)">REPLY</el-button>
+                                <span class="time">{{ getNowFormatDate(row.created_at) }}</span>
+                                <el-button class="reply-btn" type="text"
+                                    @click="replyBtn($index, row)">REPLY</el-button>
                             </div>
                         </div>
                         <div class="content">
                             <vue-markdown :source="row.content"></vue-markdown>
                         </div>
-                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" @cancel="cancelBtn($index)" @refresh="fetchComment" />
+                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" @cancel="cancelBtn($index)"
+                            @refresh="fetchComment" />
                     </div>
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
                             <div class="img">
-                                <img :src="item.image" />
+                                <img :src="item.avatar" />
                             </div>
                             <div class="info">
                                 <div class="name">
                                     <a :href="item.url" target="_blank">
-                                        {{item.name}}
+                                        {{ item.name }}
                                     </a>
                                 </div>
                                 <div>
-                                    <span class="time">{{item.created_at}}</span>
-                                    <el-button class="reply-btn" type="text" @click="replyBtn(index, item, $index)">REPLY</el-button>
+                                    <span class="time">{{ item.created_at }}</span>
+                                    <el-button class="reply-btn" type="text"
+                                        @click="replyBtn(index, item, $index)">REPLY</el-button>
                                 </div>
                             </div>
                             <div class="content">
-                                <vue-markdown>{{item.content}}</vue-markdown>
+                                <vue-markdown>{{ item.content }}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id" @cancel="cancelBtn($index,index)" @refresh="fetchComment" />
+                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id"
+                                @cancel="cancelBtn($index, index)" @refresh="fetchComment" />
                         </div>
                     </div>
                 </template>
             </el-table-column>
         </el-table>
         <div style="text-align: center">
-            <el-pagination layout="total, prev, pager, next"
-                @current-change="fetchComment"
-                :page-size="pagination.page_size"
-                :total="pagination.total">
+            <el-pagination layout="total, prev, pager, next" @current-change="fetchComment"
+                :page-size="pagination.page_size" :total="pagination.total">
             </el-pagination>
         </div>
     </el-card>
 </template>
 
 <script>
-import {Table, TableColumn, Pagination} from 'element-ui';
+import { Table, TableColumn, Pagination } from 'element-ui';
 import Reply from '@/components/pages/articles/Reply';
 import VueMarkdown from 'vue-markdown';
-import md5 from 'md5';
 
 export default {
     components: {
@@ -107,7 +108,7 @@ export default {
             }
             this.loading = true;
             await this.$axios.$get(`comments/count?article_id=${this.$route.params.id}`).then((res) => {
-                this.pagination.total = res.data;
+                this.pagination.total = res.data?.count;
             }).finally(() => this.loading = false);
         },
         replyBtn(index, row, parent_index = -1) {
@@ -143,7 +144,6 @@ export default {
             }
             res.data.forEach((el) => {
                 el.reply = false;
-                el.image = 'https://www.gravatar.com/avatar/' + md5(el.email || 'example');
                 return el;
             });
             this.last_id[page] = res.data[res.data.length - 1].id;
@@ -164,6 +164,16 @@ export default {
                 });
             });
         },
+        getNowFormatDate(timetsamp) {
+            const date = new Date(timetsamp);
+            const year = date.getFullYear()
+            const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth()
+            const day = date.getDate() + 1 < 10 ? `0${date.getDate() + 1}` : date.getDate()
+            const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+            const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+            const second = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+            return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+        },
     },
     mounted() {
         this.fetchComment();
@@ -174,33 +184,40 @@ export default {
 <style lang="scss" scoped>
 .comment {
     margin-top: 30px;
-    .comment:hover, .sub-comment-item:hover {
+
+    .comment:hover,
+    .sub-comment-item:hover {
         .info {
             .reply-btn {
                 opacity: 1;
             }
         }
     }
+
     .img {
-        background: #000;
+        background: rgba(0, 0, 0, 0);
         float: left;
         width: 40px;
         height: 40px;
         margin-right: 10px;
+
         img {
             width: 41px;
             height: 41px;
             border-radius: 50%;
         }
     }
+
     .info {
         margin-left: 10px;
+
         .name {
             a {
                 font-size: 16px;
                 font-weight: bold;
             }
         }
+
         .reply-btn {
             font-size: 12px;
             display: block;
@@ -214,15 +231,18 @@ export default {
             opacity: 0;
         }
     }
+
     .content {
         margin-top: 15px;
         font-size: 14px;
         line-height: 30px;
         color: #63686d;
     }
+
     .sub-comment {
         display: block;
         margin-left: 80px;
+
         .sub-comment-item {
             border-top: 1px solid #ccc;
             padding-top: 30px;
