@@ -81,3 +81,5 @@ typings/
 .idea
 
 package-lock.json
+
+upload_to_oss.js

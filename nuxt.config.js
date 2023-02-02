@@ -56,6 +56,7 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     baseURL: 'https://wrath.cc/go/',
+    // baseURL: 'http://127.0.0.1:8000/api',
   },
 
   /*
@@ -64,7 +65,7 @@ module.exports = {
   build: {
     babel: {
       plugins: [
-        [ "component", {"libraryName": "element-ui",  "styleLibraryName": "theme-chalk"}] 
+        ["component", { "libraryName": "element-ui", "styleLibraryName": "theme-chalk" }]
       ]
     },
     /*
@@ -80,13 +81,13 @@ module.exports = {
     ]
   },
   generate: {
-    routes: function() {
+    routes: function () {
       return axios.get('https://wrath.cc/go/articles')
-      .then((res) => {
-        return res.data.data.map((article) => {
-          return '/articles/' + article.id
+        .then((res) => {
+          return res.data.data.map((article) => {
+            return '/articles/' + article.id
+          })
         })
-      })
     }
   }
 }
