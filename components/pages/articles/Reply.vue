@@ -6,11 +6,7 @@
             <el-input v-model="form.url" placeholder="网站(选填)" />
         </div>
         <div class="content">
-            <el-input
-                type="textarea"
-                :autosize="{ minRows: 6 }"
-                placeholder="你有什么想对我说的..."
-                v-model="form.content" />
+            <el-input type="textarea" :autosize="{ minRows: 6 }" placeholder="你有什么想对我说的..." v-model="form.content" />
         </div>
         <div class="buttom-btn">
             <el-button class="submit-btn" @click="submit">COMMIT</el-button>
@@ -20,7 +16,7 @@
 </template>
 
 <script>
-import {Input} from 'element-ui';
+import { Input } from 'element-ui';
 
 export default {
     components: {
@@ -30,28 +26,20 @@ export default {
         return {
             loading: false,
             form: {
+                last_id: this.last_id || 0,
                 name: '',
                 email: '',
                 url: '',
                 content: this.reply_to ? this.reply_to + '  ' : '',
                 article_id: Number(this.$route.params.id),
                 pid: this.pid || 0,
-                ppid: this.ppid || 0
             },
-		};
+        };
     },
-    props: ['reply_to', 'pid', 'ppid'],
+    props: ['last_id', 'reply_to', 'pid'],
     methods: {
         submit() {
             this.loading = true;
-            if (!this.form.name) {
-                this.$message.error('昵称必填哦~');
-                return;
-            }
-            if (!this.form.email) {
-                this.$message.error('邮箱必填哦~');
-                return;
-            }
             if (!this.form.content) {
                 this.$message.error('你难道没什么想说的吗~');
                 return;
@@ -60,8 +48,8 @@ export default {
                 this.$message.success('提交成功');
             }).finally(() => {
                 this.loading = false;
-				this.$emit('cancel')
-				this.$emit('refresh')
+                this.$emit('cancel')
+                this.$emit('refresh')
             });
         }
     },
@@ -70,13 +58,16 @@ export default {
 <style lang="scss" scoped>
 .reply {
     margin-top: 15px;
+
     .user-info {
         display: flex;
         justify-content: center;
     }
+
     .content {
         margin-top: 10px;
     }
+
     .buttom-btn {
         display: flex;
         justify-content: space-between;

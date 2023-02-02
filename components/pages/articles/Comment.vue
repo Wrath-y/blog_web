@@ -24,8 +24,8 @@
                         <div class="content">
                             <vue-markdown :source="row.content"></vue-markdown>
                         </div>
-                        <Reply v-if="row.reply" :reply_to="reply_to" :pid="row.id" @cancel="cancelBtn($index)"
-                            @refresh="fetchComment" />
+                        <Reply v-if="row.reply" :last_id="last_id" :reply_to="reply_to" :pid="row.id"
+                            @cancel="cancelBtn($index)" @refresh="refresh()" />
                     </div>
                     <div v-if="row.childs" class="sub-comment">
                         <div class="sub-comment-item" v-for="(item, index) in row.childs" :key="index">
@@ -39,7 +39,7 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <span class="time">{{ item.created_at }}</span>
+                                    <span class="time">{{ getNowFormatDate(item.created_at) }}</span>
                                     <el-button class="reply-btn" type="text"
                                         @click="replyBtn(index, item, $index)">REPLY</el-button>
                                 </div>
@@ -47,8 +47,8 @@
                             <div class="content">
                                 <vue-markdown>{{ item.content }}</vue-markdown>
                             </div>
-                            <Reply v-if="item.reply" :reply_to="reply_to" :pid="row.id" :ppid="item.id"
-                                @cancel="cancelBtn($index, index)" @refresh="fetchComment" />
+                            <Reply v-if="item.reply" :last_id="last_id" :reply_to="reply_to" :pid="row.id"
+                                @cancel="cancelBtn($index, index)" @refresh="refresh()" />
                         </div>
                     </div>
                 </template>
@@ -79,13 +79,15 @@ export default {
         return {
             loading: false,
             list: [],
+            reload: this.reload,
             pagination: {
                 total: 0,
                 page_size: 6,
             },
             show_to_reply: true,
             reply_to: '',
-            last_id: [],
+            last_ids: [],
+            last_id: 0,
             current_page: 0,
         };
     },
@@ -96,7 +98,7 @@ export default {
                 this.$route.params.id = this.id;
             }
             this.fetchTotal();
-            let url = page > 1 ? `comments?article_id=${this.$route.params.id}&last_id=${this.last_id[page]}` : `comments?article_id=${this.$route.params.id}`;
+            let url = page > 1 ? `comments?article_id=${this.$route.params.id}&last_id=${this.last_ids[page]}` : `comments?article_id=${this.$route.params.id}`;
             this.loading = true;
             await this.$axios.$get(url).then((res) => {
                 this.format(res, page);
@@ -146,7 +148,7 @@ export default {
                 el.reply = false;
                 return el;
             });
-            this.last_id[page] = res.data[res.data.length - 1].id;
+            this.last_id = this.last_ids[page] = res.data[res.data.length - 1].id;
             let del_ids = [];
             this.list = [];
             this.list = res.data.map((el) => {
@@ -174,6 +176,9 @@ export default {
             const second = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
             return `${year}-${month}-${day} ${hour}:${minute}:${second}`
         },
+        refresh() {
+            window.location.reload();
+        }
     },
     mounted() {
         this.fetchComment();
