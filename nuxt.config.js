@@ -81,7 +81,7 @@ module.exports = {
   },
   generate: {
     routes: function () {
-      return axios.get('https://wrath.cc/go/articles')
+      return axios.get('https://wrath.cc/go/articles/a')
         .then((res) => {
           return res.data.data.map((article) => {
             return '/articles/' + article.id
