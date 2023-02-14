@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         async asyncData () {
-            await this.$axios.$get(`articles/${this.$route.params.id}`).then((res) => {
+            await this.$axios.$get(`article/${this.$route.params.id}`).then((res) => {
                 this.form = res.data
             });
             this.loading = false
