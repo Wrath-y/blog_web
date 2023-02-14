@@ -49,7 +49,7 @@ async function putOSS(src, dist) {
  */
 async function upFile(dirName = '') {
   try {
-    await addFileToOSSSync(PUBLIC_PATH + dirName + "/dist", '');
+    await addFileToOSSSync(PUBLIC_PATH + dirName + "/dist", 'static_web');
   } catch (err) {
     console.log(dirName + "上传oss成功失败", err);
   }
