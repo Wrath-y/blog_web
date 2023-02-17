@@ -26,14 +26,14 @@ export default {
         return {
             loading: false,
             form: {},
-    };
+        };
     },
     computed: {},
     watch: {},
     methods: {
         async fetchData() {
             this.loading = true;
-            await this.$axios.$get(`articles/2`).then((res) => {
+            await this.$axios.$get(`article/2`).then((res) => {
                 this.form = res.data;
             }).finally(() => this.loading = false);
         },
@@ -49,6 +49,7 @@ export default {
 .wrap {
     width: 50%;
     margin: auto;
+
     .top {
         padding-top: 81px;
     }
