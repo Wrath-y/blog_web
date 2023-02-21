@@ -2,5 +2,5 @@ import Vue from 'vue';
 import VueLazyLoad from 'vue-lazyload';
 
 Vue.use(VueLazyLoad, {
-    loading: 'https://blog-ico.oss-cn-shanghai.aliyuncs.com/loading.gif'
+    loading: 'https://wrath-blog.oss-cn-shanghai.aliyuncs.com/ico/loading.gif'
 });

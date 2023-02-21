@@ -5,7 +5,7 @@
             <el-col :span="6">
                 <div class="user-list">
                     <div class="item" :class="{'active': item.fd === target_user.target_fd}" v-for="item in user_list" :key="item.fd" @click="chooseTarget(item)">
-                        <img src="https://blog-ico.oss-cn-shanghai.aliyuncs.com/1.jpg" />
+                        <img src="https://wrath-blog.oss-cn-shanghai.aliyuncs.com/ico/smile.jpg" />
                         <span>{{item.name}}</span>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
 						<a @click="getLogs">历史记录</a>
 					</div>
                     <div :class="{'text-right': item.source_fd === my.fd}" class="item" v-for="item in message_list" :key="item.fd">
-                        <img src="https://blog-ico.oss-cn-shanghai.aliyuncs.com/1.jpg" :class="{'float-right': item.source_fd === my.fd, 'float-left': item.source_fd !== my.fd}" />
+                        <img src="https://wrath-blog.oss-cn-shanghai.aliyuncs.com/ico/smile.jpg" :class="{'float-right': item.source_fd === my.fd, 'float-left': item.source_fd !== my.fd}" />
                         <div class="con">
                             <span>{{item.source_name}}</span>
                             <p>{{item.message}}</p>

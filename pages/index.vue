@@ -118,7 +118,7 @@ export default {
 
 <style scoped lang="scss">
 .headertop.filter-dot::before {
-    background-image: url('https://blog-ico.oss-cn-shanghai.aliyuncs.com/dot.gif')
+    background-image: url('https://wrath-blog.oss-cn-shanghai.aliyuncs.com/ico/dot.gif')
 }
 .headertop {
     position: relative;
@@ -214,7 +214,7 @@ export default {
                         bottom:0;
                         right:0;
                         padding:0 20px 1px 45px;
-                        background:url(https://blog-ico.oss-cn-shanghai.aliyuncs.com/ellipsis_bg.png) repeat-y;
+                        background:url(https://wrath-blog.oss-cn-shanghai.aliyuncs.com/ico/ellipsis_bg.png) repeat-y;
                     }
                 }
                 h3 {
