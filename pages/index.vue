@@ -2,7 +2,7 @@
     <div>
         <div style="position: fixed; width: 100%; z-index: -1">
             <div class="headertop trans filter-dot">
-                <img class="header-bg-img" src="https://wrath.oss-cn-shanghai.aliyuncs.com/header.png" />
+                <img class="header-bg-img" src="https://wrath-blog.oss-cn-shanghai.aliyuncs.com/bg_img/header.png" />
             </div>
         </div>
         <div class="list" v-loading="loading">
