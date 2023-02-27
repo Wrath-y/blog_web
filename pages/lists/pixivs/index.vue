@@ -30,7 +30,7 @@ export default {
     methods: {
         async fetchList() {
             console.log(1);
-            await this.$axios.get('https://wrath.cc/go/pixivs?' + this.toQuery(this.form)).then((res) => {
+            await this.$axios.$get('pixivs?' + this.toQuery(this.form)).then((res) => {
                 if (res) {
                     this.list = this.list.concat(res.data.Objects.map((i) => {
                         i.Key = 'https://wrath-pixiv.oss-cn-shanghai.aliyuncs.com/' + this.encodeUrl(i.Key);

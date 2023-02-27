@@ -11,7 +11,6 @@
             </el-submenu>
             <el-menu-item class="nav-message" index="/messages">留言板</el-menu-item>
             <el-menu-item class="nav-friends" index="/friends">友人帐</el-menu-item>
-            <el-menu-item class="nav-about" index="/abouts">关于</el-menu-item>
         </el-menu>
     </div>
 </template>
