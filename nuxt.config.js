@@ -15,7 +15,9 @@ module.exports = {
       { charset: 'utf-8' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    script: [],
+    script: [
+      { async: true, src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1466336567692166', crossorigin: 'anonymous' }
+    ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
