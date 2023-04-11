@@ -1,29 +1,42 @@
 <template>
     <div class="wrap">
-        <div class="top"></div>
-        <el-card v-loading="loading">
-            <div class="header">
-                <h1>{{ form.title }}</h1>
-                <div class="post-meta">
-                    <span>
-                        <i class="el-icon-view"></i>
-                        {{ form.hits }}热度
-                    </span>
-                    <span style="margin: 0 10px">
-                        <i class="el-icon-edit"></i>
-                        {{ form.comment_count || 0 }}条评论
-                    </span>
-                    <span class="tags">
-                        <i class="el-icon-document"></i>
-                        {{ form.tags }}
-                    </span>
+        <div style="display: inline;position: absolute; top: 100px;left:0px">
+            <Adsense ins-style="display:inline-block;width:250px;height:728px" data-ad-client="ca-pub-1466336567692166"
+                data-ad-slot="5695809452">
+            </Adsense>
+        </div>
+        <div style="display: inline;position: absolute; top: 100px; right:0px">
+            <Adsense ins-style="display:inline-block;width:250px;height:728px" data-ad-client="ca-pub-1466336567692166"
+                data-ad-slot="5695809452">
+            </Adsense>
+        </div>
+        <div style="width: 50%;margin: auto">
+            <div class="top"></div>
+            <el-card v-loading="loading">
+                <div class="header">
+                    <h1>{{ form.title }}</h1>
+                    <div class="post-meta">
+                        <span>
+                            <i class="el-icon-view"></i>
+                            {{ form.hits }}热度
+                        </span>
+                        <span style="margin: 0 10px">
+                            <i class="el-icon-edit"></i>
+                            {{ form.comment_count || 0 }}条评论
+                        </span>
+                        <span class="tags">
+                            <i class="el-icon-document"></i>
+                            {{ form.tags }}
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <InArticleAdsense data-ad-client="ca-pub-1466336567692166" data-ad-slot="7219223234">
-            </InArticleAdsense>
-            <div class='markdown-body' v-html="form.html"></div>
-        </el-card>
-        <Comment />
+                <div class='markdown-body' v-html="form.html"></div>
+
+                <InArticleAdsense data-ad-client="ca-pub-1466336567692166" data-ad-slot="7219223234">
+                </InArticleAdsense>
+            </el-card>
+            <Comment />
+        </div>
     </div>
 </template>
 
@@ -71,8 +84,7 @@ ins.adsbygoogle[data-ad-status="unfilled"] {
 }
 
 .wrap {
-    width: 50%;
-    margin: auto;
+    position: relative;
 
     .top {
         padding-top: 81px;
