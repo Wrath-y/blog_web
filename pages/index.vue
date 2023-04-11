@@ -1,6 +1,11 @@
 <template>
     <div class="big-box">
         <div class="list" v-loading="loading">
+            <div style="display: inline;position: absolute; top: 100px;left:0px">
+                <Adsense ins-style="display:inline-block;width:250px;height:728px" data-ad-client="ca-pub-1466336567692166"
+                    data-ad-slot="5695809452">
+                </Adsense>
+            </div>
             <div class="content-box">
                 <div class="main-content">
                     <el-card v-for="(item, index) in list" :key="index" class="post-card">
@@ -40,6 +45,11 @@
                         </div>
                     </el-card>
                 </div>
+            </div>
+            <div style="display: inline;position: absolute; top: 100px; right:0px">
+                <Adsense ins-style="display:inline-block;width:250px;height:728px" data-ad-client="ca-pub-1466336567692166"
+                    data-ad-slot="5695809452">
+                </Adsense>
             </div>
         </div>
     </div>
@@ -148,6 +158,7 @@ export default {
 }
 
 .list {
+    position: relative;
     width: 100%;
     z-index: 9;
     padding-top: 10vh;

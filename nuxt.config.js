@@ -43,6 +43,7 @@ module.exports = {
     { src: '~plugins/lazy-loading', ssr: true },
     { src: '~plugins/waterfall', ssr: false },
     { src: '~plugins/baidu-spider', ssr: false },
+    { src: '~plugins/vue-google-adsense.js', ssr: false }
   ],
 
   /*
