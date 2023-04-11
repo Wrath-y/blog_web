@@ -47,22 +47,43 @@ import Comment from '@/components/pages/articles/Comment';
 
 export default {
     transition: 'page',
-    head: {
-        script: [
-            { src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js' }
-        ],
-        link: [
-            { rel: "stylesheet", href: "https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" }
-        ]
+    head() {
+        return {
+            title: this.title,
+            meta: this.meta,
+            script: [
+                { src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js' }
+            ],
+            link: [
+                { rel: "stylesheet", href: "https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" }
+            ]
+        }
     },
     components: {
         Comment,
     },
     data() {
         return {
-            loading: false,
-            form: {}
+            loading: true,
+            form: {},
+            title: '',
+            meta: [],
         };
+    },
+    async asyncData({ $axios, params }) {//请求
+        let meta_arr = [];
+        await $axios.$get(`seo/${params.id}`).then((res) => {
+            if (!res.data) {
+                return
+            }
+            res.data.forEach(e => {
+                if (e.name == 'title') {
+                    e.content += ' - Wrath‘s blog'
+                }
+                meta_arr.push(e)
+            })
+        })
+        return { meta: meta_arr }
     },
     methods: {
         async asyncData() {

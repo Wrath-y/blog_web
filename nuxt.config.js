@@ -8,12 +8,10 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
     meta: [
       { name: 'google-site-verification', content: 'nMwxkFoB0em4w-P4zGMyUAHmQVP9hHpZ4Q2uewWu_0M' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { charset: 'utf-8' },
-      { hid: 'description', name: 'description', content: pkg.description }
     ],
     script: [
       { async: true, src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1466336567692166', crossorigin: 'anonymous' }
