@@ -49,7 +49,6 @@ export default {
     transition: 'page',
     head() {
         return {
-            title: this.title,
             meta: this.meta,
             script: [
                 { src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js' }
@@ -64,14 +63,14 @@ export default {
     },
     data() {
         return {
-            loading: true,
+            loading: false,
             form: {},
-            title: '',
             meta: [],
         };
     },
     async asyncData({ $axios, params }) {//请求
-        let meta_arr = [];
+        let meta_arr = []
+        let form = {}
         await $axios.$get(`seo/${params.id}`).then((res) => {
             if (!res.data) {
                 return
@@ -83,18 +82,14 @@ export default {
                 meta_arr.push(e)
             })
         })
-        return { meta: meta_arr }
+        await $axios.$get(`article/${params.id}`).then((res) => {
+            form = res.data
+        });
+        return { meta: meta_arr, form: form }
     },
     methods: {
-        async asyncData() {
-            await this.$axios.$get(`article/${this.$route.params.id}`).then((res) => {
-                this.form = res.data
-            });
-            this.loading = false
-        },
     },
     created() {
-        this.asyncData();
     },
 };
 </script>
