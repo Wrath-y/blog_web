@@ -18,7 +18,7 @@
                     <div class="post-meta">
                         <span>
                             <i class="el-icon-view"></i>
-                            {{ form.hits }}热度
+                            {{ form.hits || 0 }}热度
                         </span>
                         <span style="margin: 0 10px">
                             <i class="el-icon-edit"></i>
@@ -63,7 +63,7 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            loading: true,
             form: {},
             meta: [],
         };
@@ -88,8 +88,16 @@ export default {
         return { meta: meta_arr, form: form }
     },
     methods: {
+        async asyncData() {
+            await this.$axios.$get(`article/${this.$route.params.id}/base_info`).then((res) => {
+                this.form.hits = res?.data?.hits
+                this.form.comment_count = res?.data?.comment_count
+            });
+            this.loading = false
+        },
     },
     created() {
+        this.asyncData();
     },
 };
 </script>
