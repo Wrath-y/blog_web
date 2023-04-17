@@ -35,7 +35,7 @@
                                 </span>
                             </div>
                             <div class="post-intro">
-                                <p>{{ item.con }}</p>
+                                <p>{{ item.intro }}</p>
                             </div>
                             <div class="post-bottom" :class="{ 'text-right': index % 2 == 0 }">
                                 <nuxt-link :to="`/articles/${item.id}`">
