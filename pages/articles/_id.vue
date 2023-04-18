@@ -14,7 +14,7 @@
             <div class="top"></div>
             <el-card v-loading="loading">
                 <div class="header">
-                    <h1>{{ form.title }}</h1>
+                    <h1 class="header-h1">{{ static_form.title }}</h1>
                     <div class="post-meta">
                         <span>
                             <i class="el-icon-view"></i>
@@ -26,11 +26,11 @@
                         </span>
                         <span class="tags">
                             <i class="el-icon-document"></i>
-                            {{ form.tags }}
+                            {{ static_form.tags }}
                         </span>
                     </div>
                 </div>
-                <div class='markdown-body' v-html="form.html"></div>
+                <div class='markdown-body' v-html="static_form.html"></div>
 
                 <InArticleAdsense data-ad-client="ca-pub-1466336567692166" data-ad-slot="7219223234">
                 </InArticleAdsense>
@@ -64,28 +64,29 @@ export default {
     data() {
         return {
             loading: true,
+            static_form: {},
             form: {},
             meta: [],
         };
     },
     async asyncData({ $axios, params }) {//请求
         let meta_arr = []
-        let form = {}
+        let static_form = {}
         await $axios.$get(`seo/${params.id}`).then((res) => {
             if (!res.data) {
                 return
             }
             res.data.forEach(e => {
-                if (e.name == 'title') {
+                if (e?.name == 'title') {
                     e.content += ' - Wrath‘s blog'
                 }
                 meta_arr.push(e)
             })
         })
         await $axios.$get(`article/${params.id}`).then((res) => {
-            form = res.data
+            static_form = res.data
         });
-        return { meta: meta_arr, form: form }
+        return { meta: meta_arr, static_form: static_form }
     },
     methods: {
         async asyncData() {
